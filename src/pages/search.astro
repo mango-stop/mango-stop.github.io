@@ -1,0 +1,30 @@
+---
+import Search from 'astro-pagefind/components/Search.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="검색">
+  <h1>검색</h1>
+  <Search
+    id="search"
+    className="pagefind-ui"
+    uiOptions={{
+      showImages: false,
+      translations: {
+        placeholder: '검색어를 입력하세요',
+        zero_results: '"[SEARCH_TERM]"에 대한 결과가 없습니다',
+      },
+    }}
+  />
+
+  <style is:global>
+    .pagefind-ui {
+      --pagefind-ui-primary: var(--accent);
+      --pagefind-ui-text: var(--text);
+      --pagefind-ui-background: var(--bg);
+      --pagefind-ui-border: var(--border);
+      --pagefind-ui-tag: var(--bg-soft);
+      --pagefind-ui-font: inherit;
+    }
+  </style>
+</BaseLayout>

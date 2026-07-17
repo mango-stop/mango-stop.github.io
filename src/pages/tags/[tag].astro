@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts', ({ data }) => !data.draft);
+  const tags = [...new Set(posts.flatMap((post) => post.data.tags))];
+  return tags.map((tag) => ({ params: { tag } }));
+}
+
+const { tag } = Astro.params;
+
+const posts = (
+  await getCollection(
+    'posts',
+    ({ data }) => !data.draft && data.tags.includes(tag!)
+  )
+).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout title={`#${tag}`}>
+  <h1 class="page-title">#{tag}</h1>
+  <p class="count">{posts.length}개의 글</p>
+  <section>
+    {posts.map((post) => <PostCard post={post} />)}
+  </section>
+
+  <style>
+    .page-title {
+      margin-bottom: 0.2rem;
+    }
+
+    .count {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 0;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+  </style>
+</BaseLayout>

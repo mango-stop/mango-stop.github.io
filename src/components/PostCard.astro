@@ -1,0 +1,77 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { CATEGORIES, formatDate } from '../lib/site';
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+}
+
+const { post } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const category = CATEGORIES[post.data.category];
+---
+
+<article class="post-card">
+  <div class="meta">
+    <a class="category-badge" href={`${base}/categories/${category.slug}/`}>
+      {category.label}
+    </a>
+    <time datetime={post.data.pubDate.toISOString()}>
+      {formatDate(post.data.pubDate)}
+    </time>
+  </div>
+  <h2><a href={`${base}/posts/${post.id}/`}>{post.data.title}</a></h2>
+  <p class="description">{post.data.description}</p>
+  {
+    post.data.tags.length > 0 && (
+      <div class="tags">
+        {post.data.tags.map((tag) => (
+          <a class="tag" href={`${base}/tags/${tag}/`}>
+            #{tag}
+          </a>
+        ))}
+      </div>
+    )
+  }
+</article>
+
+<style>
+  .post-card {
+    padding: 1.3rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  h2 {
+    margin: 0.45rem 0 0.3rem;
+    font-size: 1.25rem;
+  }
+
+  h2 a {
+    color: var(--text);
+  }
+
+  h2 a:hover {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .description {
+    margin: 0 0 0.6rem;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+
+  .tags {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+</style>
