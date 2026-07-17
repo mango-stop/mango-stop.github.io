@@ -10,7 +10,7 @@ interface Props {
 }
 
 const { title, description = SITE_DESCRIPTION, wide = false } = Astro.props;
-const pageTitle = title ? `${title} | ${SITE_TITLE}` : SITE_TITLE;
+const pageTitle = title ? `${title} · ${SITE_TITLE}` : SITE_TITLE;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
@@ -40,27 +40,30 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   <body>
     <header class="site-header">
       <div class="header-inner">
-        <a class="site-title" href={`${base}/`}>
-          <span class="logo-dot"></span>
-          {SITE_TITLE}
-        </a>
+        <a class="site-title" href={`${base}/`}>{SITE_TITLE}</a>
         <nav>
           {
             Object.values(CATEGORIES).map((c) => (
               <a href={`${base}/categories/${c.slug}/`}>{c.label}</a>
             ))
           }
-          <a href={`${base}/about/`}>소개</a>
-          <a class="search-link" href={`${base}/search/`} aria-label="검색">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <a href={`${base}/about/`}>About</a>
+          <a class="icon-link" href={`${base}/search/`} aria-label="Search" title="Search">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
               <circle cx="11" cy="11" r="7"></circle>
               <path d="m20 20-3.5-3.5"></path>
             </svg>
           </a>
-          <button id="theme-toggle" aria-label="다크모드 전환" title="다크모드 전환">
-            <span class="icon-light">☀️</span>
-            <span class="icon-dark">🌙</span>
+          <button id="theme-toggle" aria-label="Toggle theme" title="Toggle theme">
+            <svg class="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <circle cx="12" cy="12" r="4.5"></circle>
+              <path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"></path>
+            </svg>
+            <svg class="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path>
+            </svg>
           </button>
+          <a class="admin-link" href={`${base}/admin/`}>Admin</a>
         </nav>
       </div>
     </header>
@@ -69,8 +72,11 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     </main>
     <footer class="site-footer">
       <p>
-        © {new Date().getFullYear()} {SITE_TITLE} ·
+        © {new Date().getFullYear()} {SITE_TITLE}
+        <span class="sep">·</span>
         <a href="https://github.com/mango-stop" target="_blank" rel="noopener">GitHub</a>
+        <span class="sep">·</span>
+        <a href={`${base}/admin/`}>Admin</a>
       </p>
     </footer>
 
@@ -84,7 +90,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
     <style>
       main.wide {
-        max-width: 64rem;
+        max-width: 60rem;
       }
 
       .site-header {
@@ -92,15 +98,15 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         top: 0;
         z-index: 10;
         background: var(--header-bg);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         border-bottom: 1px solid var(--border);
       }
 
       .header-inner {
-        max-width: 44rem;
+        max-width: 60rem;
         margin: 0 auto;
-        padding: 0.75rem 1.35rem;
+        padding: 0.8rem 1.35rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -109,90 +115,94 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       }
 
       .site-title {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-weight: 800;
-        font-size: 1.1rem;
-        letter-spacing: -0.02em;
+        font-weight: 700;
+        font-size: 1.02rem;
+        letter-spacing: -0.01em;
         color: var(--text);
       }
 
       .site-title:hover {
         text-decoration: none;
-      }
-
-      .logo-dot {
-        width: 0.6rem;
-        height: 0.6rem;
-        border-radius: 3px;
-        background: linear-gradient(135deg, var(--accent), #a78bfa);
-        transform: rotate(45deg);
+        color: var(--accent);
       }
 
       nav {
         display: flex;
         align-items: center;
-        gap: 0.95rem;
+        gap: 1.1rem;
         flex-wrap: wrap;
       }
 
       nav a {
         color: var(--text-muted);
-        font-size: 0.92rem;
+        font-size: 0.9rem;
         font-weight: 500;
         transition: color 0.15s ease;
       }
 
       nav a:hover {
-        color: var(--accent);
+        color: var(--text);
         text-decoration: none;
       }
 
-      .search-link {
+      .icon-link {
         display: inline-flex;
         align-items: center;
       }
 
       #theme-toggle {
+        display: inline-flex;
+        align-items: center;
         background: none;
-        border: 1px solid var(--border);
-        border-radius: 9px;
-        padding: 0.18rem 0.5rem;
+        border: none;
+        padding: 0.2rem;
         cursor: pointer;
-        font-size: 0.85rem;
-        line-height: 1.4;
-        transition: border-color 0.15s ease;
+        color: var(--text-muted);
+        transition: color 0.15s ease;
       }
 
       #theme-toggle:hover {
-        border-color: var(--accent);
+        color: var(--text);
       }
 
-      #theme-toggle .icon-dark,
-      :global(html.dark) #theme-toggle .icon-light {
+      #theme-toggle .icon-moon,
+      :global(html.dark) #theme-toggle .icon-sun {
         display: none;
       }
 
-      :global(html.dark) #theme-toggle .icon-dark {
+      :global(html.dark) #theme-toggle .icon-moon {
         display: inline;
+      }
+
+      .admin-link {
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        padding: 0.22rem 0.7rem;
+        font-size: 0.85rem;
+      }
+
+      .admin-link:hover {
+        border-color: var(--text-muted);
       }
 
       .site-footer {
         border-top: 1px solid var(--border);
         text-align: center;
         color: var(--text-muted);
-        font-size: 0.84rem;
+        font-size: 0.83rem;
+      }
+
+      .sep {
+        margin: 0 0.35rem;
+        opacity: 0.5;
       }
 
       .site-footer a {
         color: var(--text-muted);
-        text-decoration: underline;
-        text-underline-offset: 3px;
       }
 
       .site-footer a:hover {
-        color: var(--accent);
+        color: var(--text);
       }
     </style>
   </body>

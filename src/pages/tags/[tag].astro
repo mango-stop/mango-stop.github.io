@@ -21,7 +21,7 @@ const posts = (
 
 <BaseLayout title={`#${tag}`}>
   <h1 class="page-title">#{tag}</h1>
-  <p class="count">{posts.length}개의 글</p>
+  <p class="count">{posts.length} {posts.length === 1 ? 'post' : 'posts'}</p>
   <section>
     {posts.map((post) => <PostCard post={post} />)}
   </section>

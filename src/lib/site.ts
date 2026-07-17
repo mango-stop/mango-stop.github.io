@@ -1,19 +1,19 @@
-export const SITE_TITLE = '연구실 일지';
+export const SITE_TITLE = 'Research Log';
 export const SITE_DESCRIPTION =
-  '학부연구생 생활 일기, 논문 리뷰, 프로젝트 기록을 담는 블로그';
+  '학부연구생의 일기, 논문 리뷰, 프로젝트 진행 기록을 남기는 공간입니다.';
 
 export const CATEGORIES = {
-  diary: { label: '일기', slug: 'diary', color: '#f59e0b' },
-  'paper-review': { label: '논문 리뷰', slug: 'paper-review', color: '#6366f1' },
-  project: { label: '프로젝트', slug: 'project', color: '#10b981' },
+  diary: { label: 'Diary', slug: 'diary', color: '#d97706' },
+  'paper-review': { label: 'Papers', slug: 'paper-review', color: '#4f46e5' },
+  project: { label: 'Projects', slug: 'project', color: '#059669' },
 } as const;
 
 export type CategoryKey = keyof typeof CATEGORIES;
 
 export function formatDate(date: Date): string {
-  return date.toLocaleDateString('ko-KR', {
+  return date.toLocaleDateString('en-US', {
     year: 'numeric',
-    month: 'long',
+    month: 'short',
     day: 'numeric',
   });
 }
