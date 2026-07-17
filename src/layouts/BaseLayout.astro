@@ -20,6 +20,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+    />
     <title>{pageTitle}</title>
     <script is:inline>
       // FOUC 방지: 렌더링 전에 저장된 테마를 적용
@@ -35,7 +39,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   <body>
     <header class="site-header">
       <div class="header-inner">
-        <a class="site-title" href={`${base}/`}>{SITE_TITLE}</a>
+        <a class="site-title" href={`${base}/`}>
+          <span class="logo-dot"></span>
+          {SITE_TITLE}
+        </a>
         <nav>
           {
             Object.values(CATEGORIES).map((c) => (
@@ -43,7 +50,12 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             ))
           }
           <a href={`${base}/about/`}>소개</a>
-          <a href={`${base}/search/`}>검색</a>
+          <a class="search-link" href={`${base}/search/`} aria-label="검색">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="m20 20-3.5-3.5"></path>
+            </svg>
+          </a>
           <button id="theme-toggle" aria-label="다크모드 전환" title="다크모드 전환">
             <span class="icon-light">☀️</span>
             <span class="icon-dark">🌙</span>
@@ -55,7 +67,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       <slot />
     </main>
     <footer class="site-footer">
-      <p>© {new Date().getFullYear()} {SITE_TITLE}</p>
+      <p>
+        © {new Date().getFullYear()} {SITE_TITLE} ·
+        <a href="https://github.com/mango-stop" target="_blank" rel="noopener">GitHub</a>
+      </p>
     </footer>
 
     <script>
@@ -68,17 +83,19 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
     <style>
       .site-header {
-        border-bottom: 1px solid var(--border);
-        background: var(--bg);
         position: sticky;
         top: 0;
         z-index: 10;
+        background: var(--header-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
       }
 
       .header-inner {
-        max-width: 46rem;
+        max-width: 44rem;
         margin: 0 auto;
-        padding: 0.8rem 1.25rem;
+        padding: 0.75rem 1.35rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -87,20 +104,39 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       }
 
       .site-title {
-        font-weight: 700;
-        font-size: 1.15rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 800;
+        font-size: 1.1rem;
+        letter-spacing: -0.02em;
         color: var(--text);
+      }
+
+      .site-title:hover {
+        text-decoration: none;
+      }
+
+      .logo-dot {
+        width: 0.6rem;
+        height: 0.6rem;
+        border-radius: 3px;
+        background: linear-gradient(135deg, var(--accent), #a78bfa);
+        transform: rotate(45deg);
       }
 
       nav {
         display: flex;
-        gap: 0.9rem;
+        align-items: center;
+        gap: 0.95rem;
         flex-wrap: wrap;
       }
 
       nav a {
         color: var(--text-muted);
-        font-size: 0.95rem;
+        font-size: 0.92rem;
+        font-weight: 500;
+        transition: color 0.15s ease;
       }
 
       nav a:hover {
@@ -108,14 +144,24 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         text-decoration: none;
       }
 
+      .search-link {
+        display: inline-flex;
+        align-items: center;
+      }
+
       #theme-toggle {
         background: none;
         border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 0.15rem 0.45rem;
+        border-radius: 9px;
+        padding: 0.18rem 0.5rem;
         cursor: pointer;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         line-height: 1.4;
+        transition: border-color 0.15s ease;
+      }
+
+      #theme-toggle:hover {
+        border-color: var(--accent);
       }
 
       #theme-toggle .icon-dark,
@@ -131,7 +177,17 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         border-top: 1px solid var(--border);
         text-align: center;
         color: var(--text-muted);
-        font-size: 0.85rem;
+        font-size: 0.84rem;
+      }
+
+      .site-footer a {
+        color: var(--text-muted);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
+      .site-footer a:hover {
+        color: var(--accent);
       }
     </style>
   </body>

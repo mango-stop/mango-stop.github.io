@@ -20,7 +20,12 @@ const category = CATEGORIES[post.data.category];
       {formatDate(post.data.pubDate)}
     </time>
   </div>
-  <h2><a href={`${base}/posts/${post.id}/`}>{post.data.title}</a></h2>
+  <h2>
+    <a href={`${base}/posts/${post.id}/`}>
+      {post.data.title}
+      <span class="arrow" aria-hidden="true">→</span>
+    </a>
+  </h2>
   <p class="description">{post.data.description}</p>
   {
     post.data.tags.length > 0 && (
@@ -37,25 +42,48 @@ const category = CATEGORIES[post.data.category];
 
 <style>
   .post-card {
-    padding: 1.3rem 0;
-    border-bottom: 1px solid var(--border);
+    position: relative;
+    padding: 1.4rem 1.3rem;
+    margin: 0 -1.3rem;
+    border-radius: 14px;
+    transition: background-color 0.18s ease;
+  }
+
+  .post-card:hover {
+    background: var(--bg-soft);
+  }
+
+  .post-card + .post-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 1.3rem;
+    right: 1.3rem;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .post-card:hover + .post-card::before,
+  .post-card:has(+ .post-card:hover)::before {
+    opacity: 0;
   }
 
   .meta {
     display: flex;
     align-items: center;
     gap: 0.7rem;
-    font-size: 0.85rem;
+    font-size: 0.84rem;
     color: var(--text-muted);
   }
 
   h2 {
-    margin: 0.45rem 0 0.3rem;
-    font-size: 1.25rem;
+    margin: 0.5rem 0 0.3rem;
+    font-size: 1.22rem;
   }
 
   h2 a {
     color: var(--text);
+    transition: color 0.15s ease;
   }
 
   h2 a:hover {
@@ -63,10 +91,25 @@ const category = CATEGORIES[post.data.category];
     text-decoration: none;
   }
 
+  .arrow {
+    display: inline-block;
+    opacity: 0;
+    transform: translateX(-4px);
+    transition:
+      opacity 0.18s ease,
+      transform 0.18s ease;
+    color: var(--accent);
+  }
+
+  .post-card:hover .arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
   .description {
-    margin: 0 0 0.6rem;
+    margin: 0 0 0.65rem;
     color: var(--text-muted);
-    font-size: 0.95rem;
+    font-size: 0.94rem;
   }
 
   .tags {

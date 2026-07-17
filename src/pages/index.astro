@@ -2,24 +2,122 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostCard from '../components/PostCard.astro';
-import { SITE_DESCRIPTION } from '../lib/site';
+import { CATEGORIES } from '../lib/site';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
+
+const countByCategory = Object.fromEntries(
+  Object.keys(CATEGORIES).map((key) => [
+    key,
+    posts.filter((p) => p.data.category === key).length,
+  ])
+);
 ---
 
 <BaseLayout>
-  <p class="intro">{SITE_DESCRIPTION}</p>
-  <section>
+  <section class="hero">
+    <h1>
+      기록이 쌓여<br />
+      <span class="highlight">연구가 됩니다</span>
+    </h1>
+    <p class="tagline">
+      학부연구생의 일기, 논문 리뷰, 프로젝트 진행 기록을 남기는 공간입니다.
+    </p>
+    <div class="category-links">
+      {
+        Object.entries(CATEGORIES).map(([key, c]) => (
+          <a class="category-pill" href={`${base}/categories/${c.slug}/`}>
+            {c.label}
+            <span class="pill-count">{countByCategory[key]}</span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="posts">
+    <h2 class="section-title">최근 글</h2>
     {posts.map((post) => <PostCard post={post} />)}
   </section>
 
   <style>
-    .intro {
+    .hero {
+      padding: 2.2rem 0 2.8rem;
+    }
+
+    .hero h1 {
+      font-size: 2.3rem;
+      margin: 0 0 0.8rem;
+      line-height: 1.25;
+    }
+
+    .highlight {
+      background: linear-gradient(120deg, var(--accent), #a78bfa);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    .tagline {
       color: var(--text-muted);
-      padding-bottom: 0.5rem;
+      font-size: 1.02rem;
+      margin: 0 0 1.4rem;
+    }
+
+    .category-links {
+      display: flex;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+    }
+
+    .category-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.38rem 0.95rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 600;
+      box-shadow: var(--shadow-sm);
+      transition:
+        border-color 0.15s ease,
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+    }
+
+    .category-pill:hover {
+      text-decoration: none;
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .pill-count {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--accent-strong);
+      background: var(--accent-soft);
+      border-radius: 999px;
+      padding: 0.05rem 0.45rem;
+    }
+
+    .section-title {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
       border-bottom: 1px solid var(--border);
+      padding-bottom: 0.6rem;
+      margin-bottom: 0.3rem;
     }
   </style>
 </BaseLayout>
