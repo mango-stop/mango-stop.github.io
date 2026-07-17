@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PostCard from '../components/PostCard.astro';
+import PostTile from '../components/PostTile.astro';
 import { CATEGORIES } from '../lib/site';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -9,6 +9,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
+
+const [featured, ...rest] = posts;
 
 const countByCategory = Object.fromEntries(
   Object.keys(CATEGORIES).map((key) => [
@@ -18,8 +20,9 @@ const countByCategory = Object.fromEntries(
 );
 ---
 
-<BaseLayout>
+<BaseLayout wide>
   <section class="hero">
+    <p class="eyebrow">UNDERGRADUATE RESEARCH LOG</p>
     <h1>
       기록이 쌓여<br />
       <span class="highlight">연구가 됩니다</span>
@@ -30,7 +33,12 @@ const countByCategory = Object.fromEntries(
     <div class="category-links">
       {
         Object.entries(CATEGORIES).map(([key, c]) => (
-          <a class="category-pill" href={`${base}/categories/${c.slug}/`}>
+          <a
+            class="category-pill"
+            href={`${base}/categories/${c.slug}/`}
+            style={`--cat-color: ${c.color}`}
+          >
+            <span class="pill-dot" />
             {c.label}
             <span class="pill-count">{countByCategory[key]}</span>
           </a>
@@ -40,23 +48,34 @@ const countByCategory = Object.fromEntries(
   </section>
 
   <section class="posts">
-    <h2 class="section-title">최근 글</h2>
-    {posts.map((post) => <PostCard post={post} />)}
+    {featured && <PostTile post={featured} featured />}
+    <div class="grid">
+      {rest.map((post) => <PostTile post={post} />)}
+    </div>
   </section>
 
   <style>
     .hero {
-      padding: 2.2rem 0 2.8rem;
+      padding: 3rem 0 3.2rem;
+      text-align: center;
+    }
+
+    .eyebrow {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+      margin: 0 0 0.9rem;
     }
 
     .hero h1 {
-      font-size: 2.3rem;
-      margin: 0 0 0.8rem;
-      line-height: 1.25;
+      font-size: clamp(2.2rem, 5vw, 3.1rem);
+      margin: 0 0 1rem;
+      line-height: 1.22;
     }
 
     .highlight {
-      background: linear-gradient(120deg, var(--accent), #a78bfa);
+      background: linear-gradient(120deg, var(--accent), #a78bfa, #f472b6);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -65,21 +84,23 @@ const countByCategory = Object.fromEntries(
 
     .tagline {
       color: var(--text-muted);
-      font-size: 1.02rem;
-      margin: 0 0 1.4rem;
+      font-size: 1.05rem;
+      margin: 0 auto 1.8rem;
+      max-width: 32rem;
     }
 
     .category-links {
       display: flex;
-      gap: 0.55rem;
+      gap: 0.6rem;
       flex-wrap: wrap;
+      justify-content: center;
     }
 
     .category-pill {
       display: inline-flex;
       align-items: center;
       gap: 0.45rem;
-      padding: 0.38rem 0.95rem;
+      padding: 0.42rem 1rem;
       border-radius: 999px;
       border: 1px solid var(--border);
       background: var(--bg-card);
@@ -95,29 +116,38 @@ const countByCategory = Object.fromEntries(
 
     .category-pill:hover {
       text-decoration: none;
-      border-color: var(--accent);
+      border-color: var(--cat-color);
       transform: translateY(-2px);
       box-shadow: var(--shadow-md);
+    }
+
+    .pill-dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 999px;
+      background: var(--cat-color);
     }
 
     .pill-count {
       font-size: 0.76rem;
       font-weight: 700;
-      color: var(--accent-strong);
-      background: var(--accent-soft);
+      color: var(--text-muted);
+      background: var(--bg-soft);
       border-radius: 999px;
       padding: 0.05rem 0.45rem;
     }
 
-    .section-title {
-      font-size: 1.05rem;
-      color: var(--text-muted);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 0.6rem;
-      margin-bottom: 0.3rem;
+    .posts {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+      gap: 1.1rem;
+      align-items: stretch;
     }
   </style>
 </BaseLayout>

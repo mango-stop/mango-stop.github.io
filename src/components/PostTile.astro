@@ -1,0 +1,171 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { CATEGORIES, formatDate } from '../lib/site';
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+  featured?: boolean;
+}
+
+const { post, featured = false } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const category = CATEGORIES[post.data.category];
+---
+
+<a
+  class:list={['tile', { featured }]}
+  href={`${base}/posts/${post.id}/`}
+  style={`--cat-color: ${category.color}`}
+>
+  <div class="tile-top">
+    <span class="cat">
+      <span class="cat-dot"></span>
+      {category.label}
+    </span>
+    <time datetime={post.data.pubDate.toISOString()}>
+      {formatDate(post.data.pubDate)}
+    </time>
+  </div>
+  <h3 class="tile-title">{post.data.title}</h3>
+  <p class="tile-desc">{post.data.description}</p>
+  {
+    post.data.tags.length > 0 && (
+      <div class="tile-tags">
+        {post.data.tags.map((tag) => (
+          <span class="tile-tag">#{tag}</span>
+        ))}
+      </div>
+    )
+  }
+  <span class="read-more">
+    읽어보기
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 12h14M13 6l6 6-6 6"></path>
+    </svg>
+  </span>
+</a>
+
+<style>
+  .tile {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    padding: 1.5rem 1.5rem 1.35rem;
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    color: var(--text);
+    box-shadow: var(--shadow-sm);
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease,
+      border-color 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tile::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--cat-color), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .tile:hover {
+    text-decoration: none;
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: color-mix(in srgb, var(--cat-color) 45%, var(--border));
+  }
+
+  .tile:hover::before {
+    opacity: 1;
+  }
+
+  .featured {
+    grid-column: 1 / -1;
+    padding: 2rem 2rem 1.7rem;
+  }
+
+  .featured .tile-title {
+    font-size: 1.5rem;
+  }
+
+  .featured .tile-desc {
+    -webkit-line-clamp: 3;
+    font-size: 1rem;
+  }
+
+  .tile-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.7rem;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+
+  .cat {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--cat-color);
+  }
+
+  .cat-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 999px;
+    background: var(--cat-color);
+  }
+
+  .tile-title {
+    margin: 0;
+    font-size: 1.16rem;
+    line-height: 1.4;
+  }
+
+  .tile-desc {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.93rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .tile-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: auto;
+    padding-top: 0.4rem;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--cat-color);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .tile:hover .read-more {
+    opacity: 1;
+    transform: translateX(0);
+  }
+</style>
