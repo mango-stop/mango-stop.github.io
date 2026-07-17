@@ -1,0 +1,44 @@
+backend:
+  name: github
+  repo: mango-stop/mango-stop.github.io
+  branch: main
+
+media_folder: public/uploads
+public_folder: /uploads
+
+site_url: https://mango-stop.github.io
+
+collections:
+  - name: posts
+    label: 게시물
+    folder: src/content/posts
+    create: true
+    slug: '{{slug}}'
+    extension: md
+    format: frontmatter
+    sortable_fields: [pubDate, title]
+    view_filters:
+      - label: 일기
+        field: category
+        pattern: diary
+      - label: 논문 리뷰
+        field: category
+        pattern: paper-review
+      - label: 프로젝트
+        field: category
+        pattern: project
+    fields:
+      - { name: title, label: 제목, widget: string }
+      - { name: description, label: 요약, widget: string }
+      - { name: pubDate, label: 작성일, widget: datetime, format: 'YYYY-MM-DD', time_format: false }
+      - name: category
+        label: 카테고리
+        widget: select
+        options:
+          - { label: 일기, value: diary }
+          - { label: 논문 리뷰, value: paper-review }
+          - { label: 프로젝트, value: project }
+        default: diary
+      - { name: tags, label: 태그, widget: list, default: [], required: false }
+      - { name: draft, label: 임시글, widget: boolean, default: false, required: false }
+      - { name: body, label: 본문, widget: markdown }
