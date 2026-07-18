@@ -63,7 +63,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
               <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path>
             </svg>
           </button>
-          <a class="admin-link" href={`${base}/admin/`}>Admin</a>
         </nav>
       </div>
     </header>
@@ -75,8 +74,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         © {new Date().getFullYear()} {SITE_TITLE}
         <span class="sep">·</span>
         <a href="https://github.com/mango-stop" target="_blank" rel="noopener">GitHub</a>
-        <span class="sep">·</span>
-        <a href={`${base}/admin/`}>Admin</a>
       </p>
     </footer>
 
@@ -172,17 +169,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
       :global(html.dark) #theme-toggle .icon-moon {
         display: inline;
-      }
-
-      .admin-link {
-        border: 1px solid var(--border);
-        border-radius: 7px;
-        padding: 0.22rem 0.7rem;
-        font-size: 0.85rem;
-      }
-
-      .admin-link:hover {
-        border-color: var(--text-muted);
       }
 
       .site-footer {
