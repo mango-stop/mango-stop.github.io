@@ -9,6 +9,7 @@ const posts = defineCollection({
     pubDate: z.coerce.date(),
     category: z.enum(['diary', 'paper-review', 'project']),
     tags: z.array(z.string()).default([]),
+    cover: z.string().optional(),
     draft: z.boolean().default(false),
   }),
 });
@@ -24,4 +25,12 @@ const about = defineCollection({
   }),
 });
 
-export const collections = { posts, about };
+const home = defineCollection({
+  loader: glob({ pattern: 'home.md', base: './src/content/home' }),
+  schema: z.object({
+    title: z.string(),
+    tagline: z.string(),
+  }),
+});
+
+export const collections = { posts, about, home };

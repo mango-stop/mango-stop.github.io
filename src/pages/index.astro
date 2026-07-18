@@ -1,10 +1,14 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostTile from '../components/PostTile.astro';
-import { CATEGORIES } from '../lib/site';
+import { CATEGORIES, SITE_DESCRIPTION } from '../lib/site';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const home = await getEntry('home', 'home');
+const heroTitle = home?.data.title ?? '학부연구생의 연구 기록';
+const heroTagline = home?.data.tagline ?? SITE_DESCRIPTION;
 
 const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
@@ -20,10 +24,8 @@ const countByCategory = Object.fromEntries(
 
 <BaseLayout wide>
   <section class="hero">
-    <h1>학부연구생의 연구 기록</h1>
-    <p class="tagline">
-      일기, 논문 리뷰, 프로젝트 진행 과정을 꾸준히 남기는 공간입니다.
-    </p>
+    <h1>{heroTitle}</h1>
+    <p class="tagline">{heroTagline}</p>
     <div class="category-links">
       {
         Object.entries(CATEGORIES).map(([key, c]) => (
@@ -92,9 +94,15 @@ const countByCategory = Object.fromEntries(
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
       gap: 1rem;
       align-items: stretch;
+    }
+
+    @media (max-width: 480px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </BaseLayout>

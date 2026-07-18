@@ -13,6 +13,13 @@ collections:
   - name: pages
     label: 페이지
     files:
+      - name: home
+        label: 홈 화면
+        file: src/content/home/home.md
+        fields:
+          - { name: title, label: 메인 제목, widget: string }
+          - { name: tagline, label: 소개 문구, widget: string }
+
       - name: about
         label: About (소개)
         file: src/content/about/about.md
@@ -55,5 +62,6 @@ collections:
           - { label: 프로젝트, value: project }
         default: diary
       - { name: tags, label: 태그, widget: list, default: [], required: false }
+      - { name: cover, label: 대표 이미지, widget: image, required: false, hint: '비워두면 본문의 첫 번째 이미지가 자동으로 사용됩니다' }
       - { name: draft, label: 임시글, widget: boolean, default: false, required: false }
       - { name: body, label: 본문, widget: markdown }

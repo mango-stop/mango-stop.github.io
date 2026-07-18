@@ -10,6 +10,14 @@ export const CATEGORIES = {
 
 export type CategoryKey = keyof typeof CATEGORIES;
 
+/** 본문 마크다운에서 첫 번째 이미지 URL을 찾는다 (대표 이미지 폴백용) */
+export function firstImageFromMarkdown(markdown: string): string | null {
+  const md = markdown.match(/!\[[^\]]*\]\(\s*(\S+?)(?:\s+"[^"]*")?\s*\)/);
+  if (md) return md[1];
+  const html = markdown.match(/<img[^>]+src=["']([^"']+)["']/);
+  return html ? html[1] : null;
+}
+
 export function formatDate(date: Date): string {
   return date.toLocaleDateString('en-US', {
     year: 'numeric',

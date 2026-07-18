@@ -159,9 +159,16 @@ img {
 .prose table {
   border-collapse: collapse;
   width: 100%;
-  display: block;
-  overflow-x: auto;
+  display: table;
   font-size: 0.95rem;
+}
+
+/* 모바일에서는 넘칠 때 가로 스크롤 */
+@media (max-width: 640px) {
+  .prose table {
+    display: block;
+    overflow-x: auto;
+  }
 }
 
 .prose th,

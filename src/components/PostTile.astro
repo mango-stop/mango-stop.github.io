@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { CATEGORIES, formatDate } from '../lib/site';
+import { CATEGORIES, formatDate, firstImageFromMarkdown } from '../lib/site';
 
 interface Props {
   post: CollectionEntry<'posts'>;
@@ -9,34 +9,44 @@ interface Props {
 const { post } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const category = CATEGORIES[post.data.category];
+const cover = post.data.cover ?? firstImageFromMarkdown(post.body ?? '');
 ---
 
 <a class="tile" href={`${base}/posts/${post.id}/`}>
-  <div class="tile-top">
-    <span class="cat" style={`color: ${category.color}`}>{category.label}</span>
-    <time datetime={post.data.pubDate.toISOString()}>
-      {formatDate(post.data.pubDate)}
-    </time>
-  </div>
-  <h3 class="tile-title">{post.data.title}</h3>
-  <p class="tile-desc">{post.data.description}</p>
   {
-    post.data.tags.length > 0 && (
-      <div class="tile-tags">
-        {post.data.tags.map((tag) => (
-          <span class="tile-tag">#{tag}</span>
-        ))}
+    cover && (
+      <div class="thumb">
+        <img src={cover} alt="" loading="lazy" />
       </div>
     )
   }
+  <div class="tile-body">
+    <div class="tile-top">
+      <span class="cat" style={`color: ${category.color}`}>{category.label}</span>
+      <time datetime={post.data.pubDate.toISOString()}>
+        {formatDate(post.data.pubDate)}
+      </time>
+    </div>
+    <h3 class="tile-title">{post.data.title}</h3>
+    <p class="tile-desc">{post.data.description}</p>
+    {
+      post.data.tags.length > 0 && (
+        <div class="tile-tags">
+          {post.data.tags.map((tag) => (
+            <span class="tile-tag">#{tag}</span>
+          ))}
+        </div>
+      )
+    }
+  </div>
 </a>
 
 <style>
   .tile {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 1.35rem 1.4rem;
+    align-items: center;
+    gap: 1.1rem;
+    padding: 1.2rem 1.3rem;
     border-radius: 12px;
     border: 1px solid var(--border);
     background: var(--bg-card);
@@ -47,6 +57,31 @@ const category = CATEGORIES[post.data.category];
   .tile:hover {
     text-decoration: none;
     border-color: var(--text-muted);
+  }
+
+  .thumb {
+    flex: 0 0 6.2rem;
+    width: 6.2rem;
+    height: 6.2rem;
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--bg-soft);
+  }
+
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
+    display: block;
+  }
+
+  .tile-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    min-width: 0;
+    flex: 1;
   }
 
   .tile-top {
@@ -68,7 +103,7 @@ const category = CATEGORIES[post.data.category];
 
   .tile-title {
     margin: 0;
-    font-size: 1.12rem;
+    font-size: 1.1rem;
     line-height: 1.45;
   }
 
@@ -79,7 +114,7 @@ const category = CATEGORIES[post.data.category];
   .tile-desc {
     margin: 0;
     color: var(--text-muted);
-    font-size: 0.92rem;
+    font-size: 0.91rem;
     line-height: 1.6;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -91,8 +126,7 @@ const category = CATEGORIES[post.data.category];
     display: flex;
     gap: 0.55rem;
     flex-wrap: wrap;
-    margin-top: auto;
-    padding-top: 0.35rem;
+    padding-top: 0.15rem;
     font-size: 0.8rem;
     color: var(--text-muted);
   }
