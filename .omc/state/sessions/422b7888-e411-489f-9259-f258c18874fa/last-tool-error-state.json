@@ -1,7 +1,0 @@
-{
-  "tool_name": "Bash",
-  "tool_input_preview": "{\"command\":\"shopt -s dotglob && mv apparent-azimuth/* . && rmdir apparent-azimuth && ls -a\",\"description\":\"Move scaffolded files to project root\"}",
-  "error": "Exit code 127\n(eval):1: command not found: shopt",
-  "timestamp": "2026-07-17T15:27:27.053Z",
-  "retry_count": 2
-}
