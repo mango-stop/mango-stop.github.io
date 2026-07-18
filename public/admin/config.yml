@@ -10,6 +10,20 @@ public_folder: /uploads
 site_url: https://mango-stop.github.io
 
 collections:
+  - name: pages
+    label: 페이지
+    files:
+      - name: about
+        label: About (소개)
+        file: src/content/about/about.md
+        fields:
+          - { name: name, label: 이름, widget: string, required: false, hint: '비워두면 표시되지 않습니다' }
+          - { name: role, label: 직함/학년, widget: string }
+          - { name: affiliation, label: 소속, widget: string }
+          - { name: email, label: 이메일, widget: string }
+          - { name: github, label: GitHub 아이디, widget: string }
+          - { name: body, label: 소개글, widget: markdown }
+
   - name: posts
     label: 게시물
     folder: src/content/posts
