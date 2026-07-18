@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import PostCard from '../../components/PostCard.astro';
+import PostTile from '../../components/PostTile.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts', ({ data }) => !data.draft);
@@ -19,24 +19,31 @@ const posts = (
 ).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
-<BaseLayout title={`#${tag}`}>
+<BaseLayout title={`#${tag}`} wide>
   <h1 class="page-title">#{tag}</h1>
   <p class="count">{posts.length} {posts.length === 1 ? 'post' : 'posts'}</p>
-  <section>
-    {posts.map((post) => <PostCard post={post} />)}
-  </section>
+  <div class="grid">
+    {posts.map((post) => <PostTile post={post} />)}
+  </div>
 
   <style>
-    .page-title {
-      margin-bottom: 0.2rem;
+    .count {
+      padding-bottom: 1.2rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.4rem;
     }
 
-    .count {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      margin-top: 0;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid var(--border);
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    @media (max-width: 480px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </BaseLayout>
