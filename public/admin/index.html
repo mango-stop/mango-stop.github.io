@@ -8,5 +8,85 @@
   </head>
   <body>
     <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js" type="module"></script>
+    <script type="module">
+      const waitForCms = () =>
+        new Promise((resolve) => {
+          const check = () => (window.CMS ? resolve(window.CMS) : requestAnimationFrame(check));
+          check();
+        });
+
+      waitForCms().then((CMS) => {
+        // "표" 버튼: 열/행 개수를 입력하면 올바른 마크다운 표 틀을 삽입
+        CMS.registerEditorComponent({
+          id: 'table',
+          label: '표',
+          icon: 'table_chart',
+          fields: [
+            { name: 'cols', label: '열(칸) 개수', widget: 'number', value_type: 'int', min: 1, max: 10, default: 3 },
+            { name: 'rows', label: '행(줄) 개수', widget: 'number', value_type: 'int', min: 1, max: 20, default: 2 },
+          ],
+          pattern: /^(\|.*\|)\n(\|[ :-]+\|)\n((?:\|.*\|\n?)+)/,
+          fromBlock: (match) => {
+            const headerCells = (match[1].match(/\|/g) || []).length - 1;
+            const bodyLines = match[3].trim().split('\n').filter(Boolean);
+            return { cols: Math.max(1, headerCells), rows: Math.max(1, bodyLines.length) };
+          },
+          toBlock: ({ cols, rows }) => {
+            const c = Math.max(1, Math.min(10, Number(cols) || 3));
+            const r = Math.max(1, Math.min(20, Number(rows) || 2));
+            const header = `| ${Array.from({ length: c }, (_, i) => `헤더${i + 1}`).join(' | ')} |`;
+            const sep = `| ${Array.from({ length: c }, () => '---').join(' | ')} |`;
+            const body = Array.from(
+              { length: r },
+              () => `| ${Array.from({ length: c }, () => '내용').join(' | ')} |`
+            ).join('\n');
+            return `${header}\n${sep}\n${body}`;
+          },
+          toPreview: ({ cols, rows }) => {
+            const c = Math.max(1, Math.min(10, Number(cols) || 3));
+            const r = Math.max(1, Math.min(20, Number(rows) || 2));
+            const cell = 'border:1px solid #999;padding:4px 8px;';
+            const th = Array.from({ length: c }, (_, i) => `<th style="${cell}">헤더${i + 1}</th>`).join('');
+            const rowsHtml = Array.from(
+              { length: r },
+              () => `<tr>${Array.from({ length: c }, () => `<td style="${cell}">내용</td>`).join('')}</tr>`
+            ).join('');
+            return `<table style="border-collapse:collapse;"><thead><tr>${th}</tr></thead><tbody>${rowsHtml}</tbody></table>`;
+          },
+        });
+
+        // "블로그 글 링크" 버튼: 내 블로그의 다른 게시물을 골라 링크로 삽입
+        CMS.registerEditorComponent({
+          id: 'internal-link',
+          label: '블로그 글 링크',
+          icon: 'link',
+          mode: 'dialog',
+          summary: '{{text}}',
+          fields: [
+            {
+              name: 'post',
+              label: '연결할 게시물',
+              widget: 'relation',
+              collection: 'posts',
+              value_field: '{{slug}}|||{{title}}',
+              search_fields: ['title'],
+              display_fields: ['title'],
+            },
+            { name: 'text', label: '표시할 텍스트 (비우면 글 제목 사용)', widget: 'string', required: false },
+          ],
+          pattern: /\[([^\]]+)\]\(\/posts\/([^/)]+)\/\)/,
+          fromBlock: (match) => ({ post: `${match[2]}|||${match[1]}`, text: match[1] }),
+          toBlock: ({ post, text }) => {
+            const [slug, title] = String(post || '').split('|||');
+            const label = text || title || slug || '링크';
+            return `[${label}](/posts/${slug}/)`;
+          },
+          toPreview: ({ post, text }) => {
+            const [, title] = String(post || '').split('|||');
+            return `🔗 ${text || title || '(게시물을 선택하세요)'}`;
+          },
+        });
+      });
+    </script>
   </body>
 </html>

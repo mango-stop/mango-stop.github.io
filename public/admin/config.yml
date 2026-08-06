@@ -35,7 +35,7 @@ collections:
     label: 게시물
     folder: src/content/posts
     create: true
-    slug: '{{slug}}'
+    slug: '{{fields.slug}}'
     extension: md
     format: frontmatter
     sortable_fields: [pubDate, title]
@@ -51,6 +51,7 @@ collections:
         pattern: project
     fields:
       - { name: title, label: 제목, widget: string }
+      - { name: slug, label: '주소(URL) 이름', widget: string, hint: '글 주소 https://mango-stop.github.io/posts/여기/ 에 들어갈 부분입니다. 영어/숫자/하이픈(-)만 사용하세요. 예: my-first-post' }
       - { name: description, label: 요약, widget: string }
       - { name: pubDate, label: 작성일, widget: datetime, format: 'YYYY-MM-DD', time_format: false }
       - name: category
@@ -64,4 +65,7 @@ collections:
       - { name: tags, label: 태그, widget: list, default: [], required: false }
       - { name: cover, label: 대표 이미지, widget: image, required: false, hint: '비워두면 본문의 첫 번째 이미지가 자동으로 사용됩니다' }
       - { name: draft, label: 임시글, widget: boolean, default: false, required: false }
-      - { name: body, label: 본문, widget: markdown }
+      - name: body
+        label: 본문
+        widget: markdown
+        editor_components: [image, code-block, table, internal-link]
