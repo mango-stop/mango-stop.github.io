@@ -55,36 +55,28 @@
           },
         });
 
-        // "블로그 글 링크" 버튼: 내 블로그의 다른 게시물을 골라 링크로 삽입
+        // "블로그 글 카드" 버튼: 내 블로그의 다른 게시물을 골라 카드 블록으로 삽입
+        // (네이버/티스토리 링크 카드처럼 썸네일·카테고리·제목·요약이 자동으로 채워집니다)
         CMS.registerEditorComponent({
           id: 'internal-link',
-          label: '블로그 글 링크',
+          label: '블로그 글 카드',
           icon: 'link',
-          mode: 'dialog',
-          summary: '{{text}}',
           fields: [
             {
               name: 'post',
               label: '연결할 게시물',
               widget: 'relation',
               collection: 'posts',
-              value_field: '{{slug}}|||{{title}}',
+              value_field: '{{slug}}',
               search_fields: ['title'],
               display_fields: ['title'],
             },
-            { name: 'text', label: '표시할 텍스트 (비우면 글 제목 사용)', widget: 'string', required: false },
           ],
-          pattern: /\[([^\]]+)\]\(\/posts\/([^/)]+)\/\)/,
-          fromBlock: (match) => ({ post: `${match[2]}|||${match[1]}`, text: match[1] }),
-          toBlock: ({ post, text }) => {
-            const [slug, title] = String(post || '').split('|||');
-            const label = text || title || slug || '링크';
-            return `[${label}](/posts/${slug}/)`;
-          },
-          toPreview: ({ post, text }) => {
-            const [, title] = String(post || '').split('|||');
-            return `🔗 ${text || title || '(게시물을 선택하세요)'}`;
-          },
+          pattern: /<div class="post-embed" data-slug="([^"]+)"><\/div>/,
+          fromBlock: (match) => ({ post: match[1] }),
+          toBlock: ({ post }) => `<div class="post-embed" data-slug="${post}"></div>`,
+          toPreview: ({ post }) =>
+            `<div style="border:1px solid #999;border-radius:10px;padding:0.8rem 1rem;font-size:0.9rem;">🔗 블로그 글 카드 · <strong>${post || '(게시물을 선택하세요)'}</strong></div>`,
         });
       });
     </script>
