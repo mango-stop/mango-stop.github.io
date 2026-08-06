@@ -17,4 +17,4 @@ draft: false
 
 우선 관련 논문을 찾았다. 
 
-<div class="post-embed" data-slug="2222222"></div>
+<div class="post-embed" data-slug="paper-001"></div>
