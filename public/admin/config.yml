@@ -20,6 +20,41 @@ collections:
           - { name: title, label: 메인 제목, widget: string }
           - { name: tagline, label: 소개 문구, widget: string }
 
+      - name: portfolio
+        label: 포트폴리오
+        file: src/content/publications/publications.json
+        fields:
+          - name: items
+            label: 논문/발표 목록
+            widget: list
+            label_singular: 항목
+            summary: '{{fields.title}} — {{fields.venue}}'
+            fields:
+              - { name: id, label: '고유 ID (영문/숫자/하이픈, 저장 후 되도록 변경 금지)', widget: string, hint: '예: kciss-2026-object-detection' }
+              - { name: title, label: 논문/발표 제목, widget: string }
+              - name: type
+                label: 구분
+                widget: select
+                options:
+                  - { label: 저널, value: journal }
+                  - { label: 컨퍼런스(학술대회), value: conference }
+                default: conference
+              - name: scope
+                label: 국내/국외
+                widget: select
+                options:
+                  - { label: 국내, value: domestic }
+                  - { label: 국외, value: international }
+                default: domestic
+              - { name: venue, label: '학회명 / 저널명', widget: string, hint: '예: 한국정보과학회 학술대회, IEEE Access 등' }
+              - name: status
+                label: 게재상황
+                widget: select
+                options: [게재완료, 게재예정, 심사중, 발표완료, 투고예정]
+                default: 발표완료
+              - { name: date, label: '연도-월', widget: string, hint: '예: 2026-08 (정렬 및 표시에 사용)' }
+              - { name: link, label: '관련 링크 (선택)', widget: string, required: false, hint: '논문/프로시딩/DOI 링크' }
+
       - name: about
         label: About (소개)
         file: src/content/about/about.md

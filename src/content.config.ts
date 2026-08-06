@@ -1,5 +1,5 @@
 import { defineCollection, z } from 'astro:content';
-import { glob } from 'astro/loaders';
+import { glob, file } from 'astro/loaders';
 
 const posts = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/posts' }),
@@ -33,4 +33,20 @@ const home = defineCollection({
   }),
 });
 
-export const collections = { posts, about, home };
+const publications = defineCollection({
+  loader: file('src/content/publications/publications.json', {
+    parser: (text) => JSON.parse(text).items ?? [],
+  }),
+  schema: z.object({
+    id: z.string(),
+    title: z.string(),
+    type: z.enum(['journal', 'conference']),
+    scope: z.enum(['domestic', 'international']),
+    venue: z.string(),
+    status: z.string(),
+    date: z.string(),
+    link: z.string().optional(),
+  }),
+});
+
+export const collections = { posts, about, home, publications };

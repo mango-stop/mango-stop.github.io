@@ -1,0 +1,14 @@
+{
+  "items": [
+    {
+      "id": "example-2026-conf",
+      "title": "예시: 딥러닝 기반 객체 탐지 성능 개선 연구",
+      "type": "conference",
+      "scope": "domestic",
+      "venue": "한국정보과학회 학술대회",
+      "status": "발표완료",
+      "date": "2026-08",
+      "link": ""
+    }
+  ]
+}
