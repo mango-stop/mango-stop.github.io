@@ -19,6 +19,16 @@
       "status": "게재완료",
       "date": "2026",
       "link": "https://doi.org/10.1038/s41597-026-06722-5"
+    },
+    {
+      "id": "Scientific-Data-KRAFT",
+      "title": "KRAFT: A Transaction-Level Dataset for Korean Apartment Sales Integrated with Contextual Indicators",
+      "type": "journal",
+      "scope": "international",
+      "venue": "Scientific Data",
+      "status": "심사중",
+      "date": "2026",
+      "link": "https://arxiv.org/abs/2607.11961"
     }
   ]
 }
