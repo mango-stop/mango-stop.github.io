@@ -1,5 +1,5 @@
 ---
-title: '[Project_001] 주식분석 웹앱 제작'
+title: '[Project_001] KOSPI 종목분석 웹앱 제작'
 slug: project-001
 description: 프로젝트 설계 이유와 계획
 pubDate: 2026-08-06
