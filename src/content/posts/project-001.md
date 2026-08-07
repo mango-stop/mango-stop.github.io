@@ -7,7 +7,7 @@ category: project
 tags:
   - KOSPI
   - 부자가 될래요
-cover: ''
+cover: /uploads/이재용.jpg
 draft: false
 ---
 
