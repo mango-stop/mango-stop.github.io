@@ -37,7 +37,7 @@ const { name, role, affiliation, email, github } = about.data;
     </ul>
   </section>
 
-  <div class="prose">
+  <div class="prose paper">
     <Content />
   </div>
 
@@ -104,6 +104,20 @@ const { name, role, affiliation, email, github } = about.data;
 
     .links a:hover {
       color: var(--accent);
+    }
+
+    /* 소개글도 글 페이지처럼 흰 종이 카드 위에 */
+    .paper {
+      background: var(--paper);
+      border: 2px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      padding: 1.8rem 2rem 2.2rem;
+    }
+
+    @media (max-width: 640px) {
+      .paper {
+        padding: 1.3rem 1.1rem 1.6rem;
+      }
     }
   </style>
 </BaseLayout>
