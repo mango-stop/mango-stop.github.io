@@ -12,7 +12,7 @@ const category = CATEGORIES[post.data.category];
 const cover = post.data.cover ?? firstImageFromMarkdown(post.body ?? '');
 ---
 
-<a class="tile" href={`${base}/posts/${post.id}/`}>
+<a class="tile reveal" href={`${base}/posts/${post.id}/`}>
   {
     cover && (
       <div class="thumb">
@@ -47,23 +47,33 @@ const cover = post.data.cover ?? firstImageFromMarkdown(post.body ?? '');
     align-items: center;
     gap: 1.1rem;
     padding: 1.2rem 1.3rem;
-    border-radius: 12px;
-    border: 1px solid var(--border);
+    border-radius: 0;
+    border: 2px solid var(--border);
     background: var(--bg-card);
     color: var(--text);
-    transition: border-color 0.18s ease, background-color 0.18s ease;
+    box-shadow: var(--shadow-sm);
+    transition:
+      transform 0.22s var(--ease-spring),
+      box-shadow 0.22s var(--ease-spring);
   }
 
   .tile:hover {
     text-decoration: none;
-    border-color: var(--text-muted);
+    transform: translate(-3px, -3px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .tile:active {
+    transform: translate(0, 0);
+    box-shadow: 1px 1px 0 var(--text);
   }
 
   .thumb {
     flex: 0 0 6.2rem;
     width: 6.2rem;
     height: 6.2rem;
-    border-radius: 10px;
+    border-radius: 0;
+    border: 2px solid var(--border);
     overflow: hidden;
     background: var(--bg-soft);
   }
@@ -74,6 +84,11 @@ const cover = post.data.cover ?? firstImageFromMarkdown(post.body ?? '');
     object-fit: cover;
     border-radius: 0;
     display: block;
+    transition: transform 0.3s var(--ease-spring);
+  }
+
+  .tile:hover .thumb img {
+    transform: scale(1.06) rotate(-1.5deg);
   }
 
   .tile-body {
@@ -104,6 +119,7 @@ const cover = post.data.cover ?? firstImageFromMarkdown(post.body ?? '');
   .tile-title {
     margin: 0;
     font-size: 1.1rem;
+    font-weight: 800;
     line-height: 1.45;
   }
 

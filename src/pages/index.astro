@@ -25,7 +25,18 @@ const countByCategory = Object.fromEntries(
 <BaseLayout wide>
   <section class="hero">
     <h1>{heroTitle}</h1>
-    <p class="tagline">{heroTagline}</p>
+    <p class="tagline">
+      {heroTagline}
+      <svg class="squiggle" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true">
+        <path
+          d="M2 12 C 20 2, 35 22, 52 12 S 85 2, 102 12 S 135 22, 152 12 S 185 2, 202 12 S 235 22, 252 12 S 285 2, 298 12"
+          fill="none"
+          stroke="var(--accent)"
+          stroke-width="4"
+          stroke-linecap="round"
+        />
+      </svg>
+    </p>
     <div class="category-links">
       {
         Object.entries(CATEGORIES).map(([key, c]) => (
@@ -46,50 +57,86 @@ const countByCategory = Object.fromEntries(
 
   <style>
     .hero {
-      padding: 3.2rem 0 2.6rem;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 2rem;
+      padding: 3.4rem 0 2.8rem;
+      border-bottom: 3px solid var(--border);
+      margin-bottom: 2.2rem;
     }
 
     .hero h1 {
-      font-size: clamp(1.7rem, 3.5vw, 2.2rem);
-      margin: 0 0 0.6rem;
-      line-height: 1.3;
+      font-size: clamp(2.1rem, 5.5vw, 3.4rem);
+      font-weight: 900;
+      margin: 0 0 0.7rem;
+      line-height: 1.15;
     }
 
     .tagline {
       color: var(--text-muted);
-      font-size: 1rem;
-      margin: 0 0 1.5rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin: 0 0 1.8rem;
       max-width: 34rem;
+    }
+
+    .squiggle {
+      display: block;
+      width: 9rem;
+      height: 14px;
+      margin-top: -2px;
     }
 
     .category-links {
       display: flex;
-      gap: 1.4rem;
+      gap: 1rem;
       flex-wrap: wrap;
     }
 
     .category-link {
       display: inline-flex;
       align-items: baseline;
-      gap: 0.4rem;
+      gap: 0.45rem;
+      padding: 0.4rem 0.85rem;
       color: var(--text);
       font-size: 0.92rem;
-      font-weight: 600;
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.15s ease;
+      font-weight: 700;
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      box-shadow: 2px 2px 0 var(--text);
+      transition:
+        transform 0.2s var(--ease-spring),
+        box-shadow 0.2s var(--ease-spring);
+    }
+
+    .category-links a:nth-child(3n + 1) {
+      transform: rotate(-1.5deg);
+    }
+
+    .category-links a:nth-child(3n + 2) {
+      transform: rotate(1deg);
+    }
+
+    .category-links a:nth-child(3n + 3) {
+      transform: rotate(-0.8deg);
     }
 
     .category-link:hover {
       text-decoration: none;
-      border-bottom-color: var(--text);
+      color: var(--accent-strong);
+      transform: translate(-2px, -2px) rotate(0deg);
+      box-shadow: 4px 4px 0 var(--text);
+    }
+
+    .category-link:active {
+      transform: translate(1px, 1px) rotate(0deg);
+      box-shadow: 0 0 0 var(--text);
     }
 
     .cat-count {
       font-size: 0.78rem;
-      font-weight: 500;
-      color: var(--text-muted);
+      font-weight: 700;
+      padding: 0 0.4rem;
+      background: var(--accent2);
+      color: var(--text);
+      border: 2px solid var(--border);
     }
 
     .grid {

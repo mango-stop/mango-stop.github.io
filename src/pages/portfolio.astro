@@ -121,7 +121,7 @@ const scopeLabel: Record<string, string> = { domestic: '국내', international: 
       font-size: 0.9rem;
       margin: 0 0 1.6rem;
       padding-bottom: 1.2rem;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 3px solid var(--border);
     }
 
     .empty {
@@ -139,8 +139,9 @@ const scopeLabel: Record<string, string> = { domestic: '국내', international: 
 
     .pub-table-wrap {
       overflow-x: auto;
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      border: 2px solid var(--border);
+      border-radius: 0;
+      box-shadow: var(--shadow-sm);
     }
 
     .pub-table {
@@ -153,7 +154,7 @@ const scopeLabel: Record<string, string> = { domestic: '국내', international: 
     .pub-table td {
       padding: 0.7rem 0.9rem;
       text-align: left;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 2px solid var(--border);
       white-space: nowrap;
     }
 
@@ -186,30 +187,34 @@ const scopeLabel: Record<string, string> = { domestic: '국내', international: 
 
     .scope-badge {
       display: inline-block;
-      font-size: 0.76rem;
-      font-weight: 700;
-      padding: 0.1rem 0.55rem;
-      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      padding: 0.12rem 0.5rem;
+      border-radius: 0;
+      border: 2px solid var(--border);
+      box-shadow: 2px 2px 0 var(--text);
     }
 
     .scope-badge[data-scope='domestic'] {
-      color: #4f46e5;
-      background: #eef2ff;
+      color: #1c1747;
+      background: #c7d2fe;
     }
 
     .scope-badge[data-scope='international'] {
-      color: #059669;
-      background: #ecfdf5;
+      color: #052e22;
+      background: #86efac;
     }
 
     :global(html.dark) .scope-badge[data-scope='domestic'] {
-      color: #a5b4fc;
-      background: #26283d;
+      color: #eef1ff;
+      background: #4f46e5;
     }
 
     :global(html.dark) .scope-badge[data-scope='international'] {
-      color: #6ee7b7;
-      background: #10291f;
+      color: #eafff3;
+      background: #059669;
     }
   </style>
 </BaseLayout>

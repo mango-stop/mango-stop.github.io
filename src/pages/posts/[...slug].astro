@@ -52,7 +52,7 @@ const category = CATEGORIES[post.data.category];
     .post-header {
       margin-bottom: 2rem;
       padding-bottom: 1.2rem;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 3px solid var(--border);
     }
 
     .meta {
@@ -65,7 +65,8 @@ const category = CATEGORIES[post.data.category];
 
     h1 {
       margin: 0.6rem 0 0.5rem;
-      font-size: 1.85rem;
+      font-size: clamp(1.7rem, 4vw, 2.3rem);
+      font-weight: 900;
     }
 
     .tags {
