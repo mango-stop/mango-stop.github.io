@@ -35,11 +35,11 @@ const { name, role, affiliation, email, github } = about.data;
         <a href={`https://github.com/${github}`} target="_blank" rel="noopener">github.com/{github}</a>
       </li>
     </ul>
-  </section>
 
-  <div class="prose paper">
-    <Content />
-  </div>
+    <div class="prose intro">
+      <Content />
+    </div>
+  </section>
 
   <style>
     .page-title {
@@ -51,7 +51,7 @@ const { name, role, affiliation, email, github } = about.data;
       padding: 1.6rem 1.7rem;
       border: 2px solid var(--border);
       border-radius: 0;
-      background: var(--bg-card);
+      background: var(--paper);
       margin-bottom: 2rem;
       box-shadow: var(--shadow-md);
       transform: rotate(-0.5deg);
@@ -106,18 +106,20 @@ const { name, role, affiliation, email, github } = about.data;
       color: var(--accent);
     }
 
-    /* 소개글도 글 페이지처럼 흰 종이 카드 위에 */
-    .paper {
-      background: var(--paper);
-      border: 2px solid var(--border);
-      box-shadow: var(--shadow-sm);
-      padding: 1.8rem 2rem 2.2rem;
+    /* 소개글은 프로필 카드 안에 이어서 */
+    .intro {
+      margin-top: 1.1rem;
+      padding-top: 1.1rem;
+      border-top: 2px dashed var(--border);
+      font-size: 0.98rem;
     }
 
-    @media (max-width: 640px) {
-      .paper {
-        padding: 1.3rem 1.1rem 1.6rem;
-      }
+    .intro :global(p:first-child) {
+      margin-top: 0;
+    }
+
+    .intro :global(p:last-child) {
+      margin-bottom: 0;
     }
   </style>
 </BaseLayout>
