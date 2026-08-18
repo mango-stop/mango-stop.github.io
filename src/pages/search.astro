@@ -7,125 +7,81 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <h1 class="page-title">Search</h1>
   <Search
     id="search"
-    className="pagefind-ui"
-    uiOptions={{
-      showImages: false,
-      translations: {
-        placeholder: '검색어를 입력하세요',
-        zero_results: '"[SEARCH_TERM]"에 대한 결과가 없습니다',
-      },
-    }}
+    className="site-search"
+    searchboxOptions={{ placeholder: '검색어를 입력하세요' }}
   />
 
   <style is:global>
-    .pagefind-ui {
-      --pagefind-ui-primary: var(--accent);
-      --pagefind-ui-text: var(--text);
-      --pagefind-ui-background: var(--bg-card);
-      --pagefind-ui-border: var(--border);
-      --pagefind-ui-tag: var(--bg-soft);
-      --pagefind-ui-font: inherit;
-      --pagefind-ui-border-radius: 0;
-      --pagefind-ui-border-width: 2px;
+    /* Pagefind(@pagefind/component-ui)는 --pf-* 토큰으로 테마를 노출한다.
+       html:root(0,1,1)로 라이브러리의 :root(0,1,0)보다 우선 적용.
+       사이트 토큰(var(--text) 등)을 참조하므로 다크모드도 자동으로 따라간다. */
+    html:root {
+      --pf-text: var(--text);
+      --pf-text-secondary: var(--text-muted);
+      --pf-text-muted: var(--text-muted);
+      --pf-background: var(--paper);
+      --pf-border: var(--border);
+      --pf-border-focus: var(--border);
+      --pf-skeleton: var(--bg-soft);
+      --pf-skeleton-shine: var(--bg-card);
+      --pf-hover: var(--bg-soft);
+      --pf-mark: var(--accent-strong);
+      --pf-shadow-sm: 3px 3px 0 var(--text);
+      --pf-shadow-md: 4px 4px 0 var(--text);
+      --pf-shadow-lg: 6px 6px 0 var(--text);
+      --pf-outline-focus: var(--accent);
+      --pf-font:
+        'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont,
+        'Apple SD Gothic Neo', 'Noto Sans KR', 'Segoe UI', sans-serif;
+      --pf-border-radius: 0;
+      --pf-searchbox-max-width: 100%;
+      --pf-input-height: 48px;
+      --pf-input-font-size: 16px;
+      --pf-summary-font-size: 13px;
+      --pf-result-title-font-size: 16px;
+      --pf-result-excerpt-font-size: 14px;
+      --pf-results-gap: 12px;
     }
 
-    /* 검색 입력창: 브루탈리스트 카드 스타일 (두꺼운 보더 + 하드 섀도) */
-    .pagefind-ui .pagefind-ui__search-input {
-      border: 2px solid var(--border);
-      border-radius: 0;
-      background: var(--bg-card);
-      color: var(--text);
+    /* 라이브러리가 :is(*, #\#)×3(ID 3개급)로 구조 스타일의 우선순위를 올려두므로,
+       구조를 덮어쓰려면 같은 트릭에 하나를 더해(×4) 이긴다. */
+    :is(*, #\#):is(*, #\#):is(*, #\#):is(*, #\#) .pf-searchbox-input {
+      border-width: 2px;
       font-weight: 600;
       box-shadow: var(--shadow-sm);
-      transition:
-        transform 0.2s var(--ease-spring),
-        box-shadow 0.2s var(--ease-spring);
     }
 
-    .pagefind-ui .pagefind-ui__search-input:focus {
-      outline: none;
-      transform: translate(-2px, -2px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .pagefind-ui .pagefind-ui__search-input::placeholder {
+    :is(*, #\#):is(*, #\#):is(*, #\#):is(*, #\#) .pf-searchbox-input::placeholder {
       color: var(--text-muted);
       font-weight: 500;
       opacity: 1;
     }
 
-    .pagefind-ui .pagefind-ui__search-clear {
-      border-radius: 0;
-      font-weight: 700;
-      color: var(--text-muted);
-    }
-
-    /* 검색 결과: PostTile과 같은 카드 스타일 */
-    .pagefind-ui .pagefind-ui__result {
-      margin-top: 1rem;
-      padding: 1.1rem 1.25rem;
-      border: 2px solid var(--border);
-      border-radius: 0;
-      background: var(--bg-card);
+    :is(*, #\#):is(*, #\#):is(*, #\#):is(*, #\#) .pf-result-card {
+      border-width: 2px;
       box-shadow: var(--shadow-sm);
       transition:
         transform 0.2s var(--ease-spring),
         box-shadow 0.2s var(--ease-spring);
     }
 
-    .pagefind-ui .pagefind-ui__result:hover {
-      transform: translate(-3px, -3px);
+    :is(*, #\#):is(*, #\#):is(*, #\#):is(*, #\#) .pf-result-card:hover {
+      border-color: var(--border);
+      transform: translate(-2px, -2px);
       box-shadow: var(--shadow-md);
     }
 
-    .pagefind-ui .pagefind-ui__result-title {
+    :is(*, #\#):is(*, #\#):is(*, #\#):is(*, #\#) .pf-result-title {
       font-weight: 800;
     }
 
-    .pagefind-ui .pagefind-ui__result-link {
-      color: var(--text);
-    }
-
-    .pagefind-ui .pagefind-ui__result-link:hover {
-      color: var(--accent-strong);
-      text-decoration-thickness: 2px;
-    }
-
-    .pagefind-ui .pagefind-ui__result-excerpt {
-      color: var(--text-muted);
-    }
-
-    .pagefind-ui .pagefind-ui__result-excerpt mark {
+    :is(*, #\#):is(*, #\#):is(*, #\#):is(*, #\#) .pf-result-excerpt mark,
+    :is(*, #\#):is(*, #\#):is(*, #\#):is(*, #\#) .pf-heading-excerpt mark,
+    :is(*, #\#):is(*, #\#):is(*, #\#):is(*, #\#) .pf-searchbox-result-excerpt mark {
       background: var(--accent2);
       color: var(--text);
+      font-weight: 700;
       padding: 0 0.15em;
-      border: 1px solid var(--border);
-      font-weight: 700;
-    }
-
-    .pagefind-ui .pagefind-ui__message {
-      color: var(--text-muted);
-      font-weight: 600;
-    }
-
-    /* 더 보기 버튼: 브루탈리스트 버튼 */
-    .pagefind-ui .pagefind-ui__button {
-      border: 2px solid var(--border);
-      border-radius: 0;
-      background: var(--bg-card);
-      color: var(--text);
-      font-weight: 700;
-      box-shadow: var(--shadow-sm);
-      transition:
-        transform 0.2s var(--ease-spring),
-        box-shadow 0.2s var(--ease-spring);
-    }
-
-    .pagefind-ui .pagefind-ui__button:hover {
-      background: var(--bg-card);
-      color: var(--accent-strong);
-      transform: translate(-2px, -2px);
-      box-shadow: var(--shadow-md);
     }
   </style>
 </BaseLayout>
