@@ -1,0 +1,108 @@
+/*! giscus custom theme — matches the blog's brutalist dark palette.
+ * Structure adapted from https://github.com/giscus/giscus/blob/main/styles/themes/dark.css (MIT)
+ */
+
+main {
+  --color-prettylights-syntax-comment: #8b949e;
+  --color-prettylights-syntax-constant: #79c0ff;
+  --color-prettylights-syntax-entity: #d2a8ff;
+  --color-prettylights-syntax-storage-modifier-import: #c9d1d9;
+  --color-prettylights-syntax-entity-tag: #7ee787;
+  --color-prettylights-syntax-keyword: #ff7b72;
+  --color-prettylights-syntax-string: #a5d6ff;
+  --color-prettylights-syntax-variable: #ffa657;
+  --color-prettylights-syntax-brackethighlighter-unmatched: #f85149;
+  --color-prettylights-syntax-invalid-illegal-text: #f0f6fc;
+  --color-prettylights-syntax-invalid-illegal-bg: #8e1519;
+  --color-prettylights-syntax-carriage-return-text: #f0f6fc;
+  --color-prettylights-syntax-carriage-return-bg: #b62324;
+  --color-prettylights-syntax-string-regexp: #7ee787;
+  --color-prettylights-syntax-markup-list: #f2cc60;
+  --color-prettylights-syntax-markup-heading: #1f6feb;
+  --color-prettylights-syntax-markup-italic: #c9d1d9;
+  --color-prettylights-syntax-markup-bold: #c9d1d9;
+  --color-prettylights-syntax-markup-deleted-text: #ffdcd7;
+  --color-prettylights-syntax-markup-deleted-bg: #67060c;
+  --color-prettylights-syntax-markup-inserted-text: #aff5b4;
+  --color-prettylights-syntax-markup-inserted-bg: #033a16;
+  --color-prettylights-syntax-markup-changed-text: #ffdfb6;
+  --color-prettylights-syntax-markup-changed-bg: #5a1e02;
+  --color-prettylights-syntax-markup-ignored-text: #c9d1d9;
+  --color-prettylights-syntax-markup-ignored-bg: #1158c7;
+  --color-prettylights-syntax-meta-diff-range: #d2a8ff;
+  --color-prettylights-syntax-brackethighlighter-angle: #8b949e;
+  --color-prettylights-syntax-sublimelinter-gutter-mark: #484f58;
+  --color-prettylights-syntax-constant-other-reference-link: #a5d6ff;
+
+  /* Buttons — solid off-white border instead of translucent, to read closer to the brutalist chip style */
+  --color-btn-text: #f5f1e6;
+  --color-btn-bg: #191815;
+  --color-btn-border: #f5f1e6;
+  --color-btn-shadow: 0 0 transparent;
+  --color-btn-inset-shadow: 0 0 transparent;
+  --color-btn-hover-bg: #1c1a17;
+  --color-btn-hover-border: #f5f1e6;
+  --color-btn-active-bg: #3a2013;
+  --color-btn-active-border: #f5f1e6;
+  --color-btn-selected-bg: #3a2013;
+  --color-btn-primary-text: #14120f;
+  --color-btn-primary-bg: #ff7a45;
+  --color-btn-primary-border: #f5f1e6;
+  --color-btn-primary-shadow: 0 0 transparent;
+  --color-btn-primary-inset-shadow: 0 0 transparent;
+  --color-btn-primary-hover-bg: #ffab7a;
+  --color-btn-primary-hover-border: #f5f1e6;
+  --color-btn-primary-selected-bg: #ffab7a;
+  --color-btn-primary-selected-shadow: 0 0 transparent;
+  --color-btn-primary-disabled-text: rgb(245 241 230 / 50%);
+  --color-btn-primary-disabled-bg: #3a2013;
+  --color-btn-primary-disabled-border: #f5f1e6;
+
+  --color-action-list-item-default-hover-bg: rgb(245 241 230 / 10%);
+  --color-segmented-control-bg: #1c1a17;
+  --color-segmented-control-button-bg: #121110;
+  --color-segmented-control-button-selected-border: #f5f1e6;
+
+  /* Text & surfaces — near-black + off-white ink, matching the blog tokens */
+  --color-fg-default: #f5f1e6;
+  --color-fg-muted: #a39d8e;
+  --color-fg-subtle: #a39d8e;
+  --color-canvas-default: #191815;
+  --color-canvas-overlay: #1c1a17;
+  --color-canvas-inset: #121110;
+  --color-canvas-subtle: #1c1a17;
+  --color-border-default: #f5f1e6;
+  --color-border-muted: rgb(245 241 230 / 25%);
+  --color-neutral-muted: rgb(245 241 230 / 12%);
+
+  /* Accent — the blog's orange */
+  --color-accent-fg: #ffab7a;
+  --color-accent-emphasis: #ff7a45;
+  --color-accent-muted: rgb(255 122 69 / 40%);
+  --color-accent-subtle: #3a2013;
+
+  --color-success-fg: #3fb950;
+  --color-attention-fg: #d29922;
+  --color-attention-muted: rgb(187 128 9 / 40%);
+  --color-attention-subtle: rgb(187 128 9 / 15%);
+  --color-danger-fg: #f85149;
+  --color-danger-muted: rgb(248 81 73 / 40%);
+  --color-danger-subtle: rgb(248 81 73 / 10%);
+  --color-primer-shadow-inset: 0 0 transparent;
+  --color-scale-gray-7: #21262d;
+  --color-scale-blue-8: #0c2d6b;
+
+  --color-social-reaction-bg-hover: var(--color-scale-gray-7);
+  --color-social-reaction-bg-reacted-hover: var(--color-scale-blue-8);
+
+  --font-family-sans: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont,
+    'Apple SD Gothic Neo', 'Noto Sans KR', 'Segoe UI', sans-serif;
+}
+
+main .pagination-loader-container {
+  background-image: url('https://github.com/images/modules/pulls/progressive-disclosure-line-dark.svg');
+}
+
+main .gsc-loading-image {
+  background-image: url('https://github.githubassets.com/images/mona-loading-dark.gif');
+}

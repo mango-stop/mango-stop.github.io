@@ -4,7 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="Search">
-  <h1>Search</h1>
+  <h1 class="page-title">Search</h1>
   <Search
     id="search"
     className="pagefind-ui"
@@ -21,12 +21,111 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     .pagefind-ui {
       --pagefind-ui-primary: var(--accent);
       --pagefind-ui-text: var(--text);
-      --pagefind-ui-background: var(--bg);
+      --pagefind-ui-background: var(--bg-card);
       --pagefind-ui-border: var(--border);
       --pagefind-ui-tag: var(--bg-soft);
       --pagefind-ui-font: inherit;
       --pagefind-ui-border-radius: 0;
       --pagefind-ui-border-width: 2px;
+    }
+
+    /* 검색 입력창: 브루탈리스트 카드 스타일 (두꺼운 보더 + 하드 섀도) */
+    .pagefind-ui .pagefind-ui__search-input {
+      border: 2px solid var(--border);
+      border-radius: 0;
+      background: var(--bg-card);
+      color: var(--text);
+      font-weight: 600;
+      box-shadow: var(--shadow-sm);
+      transition:
+        transform 0.2s var(--ease-spring),
+        box-shadow 0.2s var(--ease-spring);
+    }
+
+    .pagefind-ui .pagefind-ui__search-input:focus {
+      outline: none;
+      transform: translate(-2px, -2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .pagefind-ui .pagefind-ui__search-input::placeholder {
+      color: var(--text-muted);
+      font-weight: 500;
+      opacity: 1;
+    }
+
+    .pagefind-ui .pagefind-ui__search-clear {
+      border-radius: 0;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    /* 검색 결과: PostTile과 같은 카드 스타일 */
+    .pagefind-ui .pagefind-ui__result {
+      margin-top: 1rem;
+      padding: 1.1rem 1.25rem;
+      border: 2px solid var(--border);
+      border-radius: 0;
+      background: var(--bg-card);
+      box-shadow: var(--shadow-sm);
+      transition:
+        transform 0.2s var(--ease-spring),
+        box-shadow 0.2s var(--ease-spring);
+    }
+
+    .pagefind-ui .pagefind-ui__result:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .pagefind-ui .pagefind-ui__result-title {
+      font-weight: 800;
+    }
+
+    .pagefind-ui .pagefind-ui__result-link {
+      color: var(--text);
+    }
+
+    .pagefind-ui .pagefind-ui__result-link:hover {
+      color: var(--accent-strong);
+      text-decoration-thickness: 2px;
+    }
+
+    .pagefind-ui .pagefind-ui__result-excerpt {
+      color: var(--text-muted);
+    }
+
+    .pagefind-ui .pagefind-ui__result-excerpt mark {
+      background: var(--accent2);
+      color: var(--text);
+      padding: 0 0.15em;
+      border: 1px solid var(--border);
+      font-weight: 700;
+    }
+
+    .pagefind-ui .pagefind-ui__message {
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* 더 보기 버튼: 브루탈리스트 버튼 */
+    .pagefind-ui .pagefind-ui__button {
+      border: 2px solid var(--border);
+      border-radius: 0;
+      background: var(--bg-card);
+      color: var(--text);
+      font-weight: 700;
+      box-shadow: var(--shadow-sm);
+      transition:
+        transform 0.2s var(--ease-spring),
+        box-shadow 0.2s var(--ease-spring);
+    }
+
+    .pagefind-ui .pagefind-ui__button:hover {
+      background: var(--bg-card);
+      color: var(--accent-strong);
+      transform: translate(-2px, -2px);
+      box-shadow: var(--shadow-md);
     }
   </style>
 </BaseLayout>
