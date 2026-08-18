@@ -36,7 +36,7 @@ main {
 
   /* Buttons — solid dark border instead of translucent, to read closer to the brutalist chip style */
   --color-btn-text: #14120f;
-  --color-btn-bg: #fffdf7;
+  --color-btn-bg: #ffffff;
   --color-btn-border: #14120f;
   --color-btn-shadow: 0 0 transparent;
   --color-btn-inset-shadow: 0 0 transparent;
@@ -45,7 +45,7 @@ main {
   --color-btn-active-bg: #ffe1d1;
   --color-btn-active-border: #14120f;
   --color-btn-selected-bg: #ffe1d1;
-  --color-btn-primary-text: #fffdf7;
+  --color-btn-primary-text: #ffffff;
   --color-btn-primary-bg: #ff4d1c;
   --color-btn-primary-border: #14120f;
   --color-btn-primary-shadow: 0 0 transparent;
@@ -60,15 +60,15 @@ main {
 
   --color-action-list-item-default-hover-bg: rgb(20 18 15 / 8%);
   --color-segmented-control-bg: #efe8d8;
-  --color-segmented-control-button-bg: #fffdf7;
+  --color-segmented-control-button-bg: #ffffff;
   --color-segmented-control-button-selected-border: #14120f;
 
   /* Text & surfaces — cream paper + ink black, matching the blog tokens */
   --color-fg-default: #14120f;
   --color-fg-muted: #5c584e;
   --color-fg-subtle: #5c584e;
-  --color-canvas-default: #fffdf7;
-  --color-canvas-overlay: #fffdf7;
+  --color-canvas-default: #ffffff;
+  --color-canvas-overlay: #ffffff;
   --color-canvas-inset: #efe8d8;
   --color-canvas-subtle: #efe8d8;
   --color-border-default: #14120f;
