@@ -5,8 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
     <title>관리자 | 연구실 일지</title>
-  </head>
-  <body>
+    <script>
+      // Sveltia CMS(sveltia-ui)는 OS 다크모드를 자동 감지해 어두운 화면으로 바뀔 수 있다.
+      // autoTheming을 꺼서 항상 라이트(흰 배경)로 고정 — 본문 작성 중 글씨가 안 보이는 걸 방지.
+      document.documentElement.dataset.autoTheming = 'false';
+      document.documentElement.dataset.theme = 'light';
+    </script>
+    <style>
+      /* 관리자(Sveltia CMS)도 블로그와 같은 브루탈리스트 톤으로 맞춘다.
+         sveltia-ui는 --sui-* 커스텀 프로퍼티로 테마를 노출하므로 :root에서 덮어쓴다. */
+      :root {
+        --sui-base-hue: 13 !important; /* 블로그 액센트(#ff4d1c)와 같은 색조 */
+        --sui-font-family-default: 'Pretendard Variable', Pretendard, -apple-system,
+          'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;
+        --sui-heading-font-weight: 800 !important;
+        --sui-control-small-border-width: 2px !important;
+        --sui-control-medium-border-width: 2px !important;
+        --sui-control-large-border-width: 2px !important;
+        --sui-control-small-border-radius: 0px !important;
+        --sui-control-medium-border-radius: 0px !important;
+        --sui-control-large-border-radius: 0px !important;
+        --sui-button-small-border-radius: 0px !important;
+        --sui-button-medium-border-radius: 0px !important;
+        --sui-button-large-border-radius: 0px !important;
+        --sui-checkbox-border-radius: 0px !important;
+        --sui-textbox-border-radius: 0px !important;
+        --sui-listbox-border-radius: 0px !important;
+        --sui-option-border-radius: 0px !important;
+        --sui-menu-border-radius: 0px !important;
+        --sui-menuitem-border-radius: 0px !important;
+        --sui-dialog-content-border-radius: 0px !important;
+        --sui-tree-border-radius: 0px !important;
+        --sui-tree-item-border-radius: 0px !important;
+        --sui-tab-border-radius: 0px !important;
+        --sui-tab-list-border-radius: 0px !important;
+        --sui-tab-list-indicator-border-radius: 0px !important;
+        --sui-progressbar-border-radius: 0px !important;
+      }
+    </style>
     <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js" type="module"></script>
     <script type="module">
       const waitForCms = () =>
