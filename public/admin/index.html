@@ -15,6 +15,66 @@
           check();
         });
 
+      // 실제 블로그(src/styles/global.css)의 브루탈리스트 톤을 미리보기용으로 옮겨온 것.
+      // 본 사이트 테마를 바꿀 때는 이 CSS도 같이 맞춰줘야 한다.
+      const PREVIEW_CSS = `
+        :root {
+          --bg: #f7f3ea;
+          --bg-soft: #efe8d8;
+          --bg-card: #fffdf7;
+          --text: #14120f;
+          --text-muted: #5c584e;
+          --accent: #ff4d1c;
+          --accent-strong: #d93b0f;
+          --accent-soft: #ffe1d1;
+          --accent2: #ffd400;
+          --border: #14120f;
+          --code-bg: #efe8d8;
+          --shadow-sm: 3px 3px 0 var(--text);
+          --shadow-md: 6px 6px 0 var(--text);
+        }
+        html, body {
+          background: var(--bg);
+          color: var(--text);
+          font-family: 'Pretendard Variable', Pretendard, -apple-system, 'Apple SD Gothic Neo', sans-serif;
+          line-height: 1.75;
+          padding: 1.5rem;
+        }
+        h1, h2, h3, h4 { font-weight: 800; letter-spacing: -0.03em; line-height: 1.25; }
+        img { max-width: 100%; height: auto; border-radius: 0; }
+        .post-header { margin-bottom: 1.6rem; padding-bottom: 1rem; border-bottom: 3px solid var(--border); }
+        .post-header h1 { font-size: 1.9rem; font-weight: 900; margin: 0.6rem 0; }
+        .category-badge {
+          display: inline-block; font-size: 0.76rem; font-weight: 800; text-transform: uppercase;
+          letter-spacing: 0.04em; padding: 0.18rem 0.65rem; background: var(--accent2);
+          border: 2px solid var(--border); box-shadow: 2px 2px 0 var(--text); color: var(--text);
+        }
+        .tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.6rem; }
+        .tag {
+          display: inline-block; font-size: 0.78rem; font-weight: 700; padding: 0.14rem 0.6rem;
+          border: 2px solid var(--border); background: var(--bg-card); color: var(--text);
+          box-shadow: 2px 2px 0 var(--text);
+        }
+        .embed-card {
+          display: block; margin: 1.2rem 0; padding: 0.9rem 1rem; border: 2px solid var(--border);
+          background: var(--bg-card); box-shadow: var(--shadow-sm);
+        }
+        .embed-title { margin: 0; font-weight: 800; }
+        .embed-desc { margin: 0.2rem 0 0; color: var(--text-muted); font-size: 0.88rem; }
+        .prose blockquote {
+          margin: 1.4em 0; padding: 0.65em 1.2em; border-left: 4px solid var(--accent);
+          background: var(--bg-soft); color: var(--text-muted);
+        }
+        .prose :not(pre) > code {
+          background: var(--accent-soft); border: 2px solid var(--border); padding: 0.12em 0.4em;
+          color: var(--accent-strong); font-weight: 600;
+        }
+        .prose pre { padding: 1.1rem 1.3rem; border: 2px solid var(--border); overflow-x: auto; box-shadow: var(--shadow-sm); }
+        .prose hr { border: none; border-top: 2px dashed var(--border); margin: 2.5em 0; }
+        .prose th, .prose td { border: 2px solid var(--border); padding: 0.5em 0.9em; }
+        .prose th { background: var(--bg-soft); }
+      `;
+
       waitForCms().then((CMS) => {
         // "표" 버튼: 열/행 개수를 입력하면 올바른 마크다운 표 틀을 삽입
         CMS.registerEditorComponent({
@@ -76,8 +136,50 @@
           fromBlock: (match) => ({ post: match[1] }),
           toBlock: ({ post }) => `<div class="post-embed" data-slug="${post}"></div>`,
           toPreview: ({ post }) =>
-            `<div style="border:1px solid #999;border-radius:10px;padding:0.8rem 1rem;font-size:0.9rem;">🔗 블로그 글 카드 · <strong>${post || '(게시물을 선택하세요)'}</strong></div>`,
+            `<div class="embed-card"><div class="embed-body"><p class="embed-title">🔗 블로그 글 카드</p><p class="embed-desc">${post || '(게시물을 선택하세요)'}</p></div></div>`,
         });
+
+        // 미리보기 패널에 실제 블로그(브루탈리스트 테마) 스타일을 그대로 입혀서
+        // 글을 쓰면서 실제 사이트에 어떻게 보일지 바로 확인할 수 있게 한다.
+        CMS.registerPreviewStyle(
+          'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css'
+        );
+        CMS.registerPreviewStyle(PREVIEW_CSS, { raw: true });
+
+        // 게시물 미리보기: 실제 포스트 페이지처럼 카테고리 배지 · 제목 · 태그 · 본문을 렌더링
+        if (typeof window.h === 'function' && typeof window.createClass === 'function') {
+          const CATEGORY_LABELS = { diary: '일기', 'paper-review': '논문 리뷰', project: '프로젝트' };
+
+          const PostPreview = window.createClass({
+            render: function () {
+              const { entry, widgetFor } = this.props;
+              const title = entry.getIn(['data', 'title']);
+              const category = entry.getIn(['data', 'category']);
+              const tags = entry.getIn(['data', 'tags']);
+              const tagList = tags && typeof tags.toJS === 'function' ? tags.toJS() : [];
+
+              return window.h(
+                'div',
+                { className: 'preview-post' },
+                window.h(
+                  'header',
+                  { className: 'post-header' },
+                  window.h('span', { className: 'category-badge' }, CATEGORY_LABELS[category] || category),
+                  window.h('h1', {}, title),
+                  tagList.length > 0 &&
+                    window.h(
+                      'div',
+                      { className: 'tags' },
+                      tagList.map((tag) => window.h('span', { className: 'tag', key: tag }, `#${tag}`))
+                    )
+                ),
+                window.h('div', { className: 'prose' }, widgetFor('body'))
+              );
+            },
+          });
+
+          CMS.registerPreviewTemplate('posts', PostPreview);
+        }
       });
     </script>
   </body>

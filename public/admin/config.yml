@@ -71,6 +71,7 @@ collections:
     folder: src/content/posts
     create: true
     slug: '{{fields.slug}}'
+    preview_path: 'posts/{{slug}}/'
     extension: md
     format: frontmatter
     sortable_fields: [pubDate, title]
