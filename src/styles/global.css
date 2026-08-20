@@ -476,8 +476,4 @@ html.reveal-armed .reveal:not(.in-view) {
     opacity: 1;
     transform: none;
   }
-
-  .squiggle path {
-    stroke-dashoffset: 0;
-  }
 }
