@@ -25,18 +25,7 @@ const countByCategory = Object.fromEntries(
 <BaseLayout wide>
   <section class="hero">
     <h1>{heroTitle}</h1>
-    <p class="tagline">
-      {heroTagline}
-      <svg class="squiggle" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true">
-        <path
-          d="M2 12 C 20 2, 35 22, 52 12 S 85 2, 102 12 S 135 22, 152 12 S 185 2, 202 12 S 235 22, 252 12 S 285 2, 298 12"
-          fill="none"
-          stroke="var(--accent)"
-          stroke-width="4"
-          stroke-linecap="round"
-        />
-      </svg>
-    </p>
+    <p class="tagline">{heroTagline}</p>
     <div class="category-links">
       {
         Object.entries(CATEGORIES).map(([key, c]) => (
@@ -75,13 +64,6 @@ const countByCategory = Object.fromEntries(
       font-weight: 600;
       margin: 0 0 1.8rem;
       max-width: 34rem;
-    }
-
-    .squiggle {
-      display: block;
-      width: 9rem;
-      height: 14px;
-      margin-top: -2px;
     }
 
     .category-links {

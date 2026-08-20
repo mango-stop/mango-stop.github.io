@@ -446,19 +446,6 @@ html.reveal-armed .reveal:not(.in-view) {
   transform: translateY(16px) rotate(-1deg);
 }
 
-/* 장식용 손그림 밑줄 */
-@keyframes draw-squiggle {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-.squiggle path {
-  stroke-dasharray: 340;
-  stroke-dashoffset: 340;
-  animation: draw-squiggle 0.9s var(--ease-spring) 0.15s forwards;
-}
-
 @keyframes wiggle {
   0%,
   100% {
