@@ -118,11 +118,13 @@ const countByCategory = Object.fromEntries(
       transform: rotate(-0.8deg);
     }
 
-    .category-link:hover {
-      text-decoration: none;
-      color: var(--accent-strong);
-      transform: translate(-2px, -2px) rotate(0deg);
-      box-shadow: 4px 4px 0 var(--text);
+    @media (hover: hover) {
+      .category-link:hover {
+        text-decoration: none;
+        color: var(--accent-strong);
+        transform: translate(-2px, -2px) rotate(0deg);
+        box-shadow: 4px 4px 0 var(--text);
+      }
     }
 
     .category-link:active {

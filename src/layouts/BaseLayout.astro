@@ -42,7 +42,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <header class="site-header">
       <div class="header-inner">
         <a class="site-title" href={`${base}/`}>{SITE_TITLE}</a>
-        <nav>
+        <nav class="site-nav" aria-label="주 메뉴">
           {
             Object.values(CATEGORIES).map((c) => (
               <a href={`${base}/categories/${c.slug}/`}>{c.label}</a>
@@ -50,6 +50,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           }
           <a href={`${base}/portfolio/`}>Portfolio</a>
           <a href={`${base}/about/`}>About</a>
+        </nav>
+        <div class="header-actions">
           <a class="icon-link" href={`${base}/search/`} aria-label="Search" title="Search">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
               <circle cx="11" cy="11" r="7"></circle>
@@ -67,7 +69,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
               </svg>
             </span>
           </button>
-        </nav>
+        </div>
       </div>
     </header>
     <main class:list={[{ wide }]}>
@@ -166,9 +168,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         padding: 0.8rem 1.35rem;
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        gap: 1rem;
-        flex-wrap: wrap;
+        gap: 1.2rem;
       }
 
       .site-title {
@@ -178,6 +178,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         color: var(--text);
         display: inline-block;
         transform-origin: 50% 80%;
+        white-space: nowrap;
       }
 
       .site-title:hover {
@@ -186,23 +187,25 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         animation: wiggle 0.5s var(--ease-spring);
       }
 
-      nav {
+      .site-nav {
         display: flex;
         align-items: center;
         gap: 1.1rem;
-        flex-wrap: wrap;
+        margin-left: auto;
+        min-width: 0;
       }
 
-      nav a {
+      .site-nav a {
         position: relative;
         color: var(--text-muted);
         font-size: 0.9rem;
         font-weight: 600;
         transition: color 0.15s ease;
         padding-bottom: 2px;
+        white-space: nowrap;
       }
 
-      nav a::after {
+      .site-nav a::after {
         content: '';
         position: absolute;
         left: 0;
@@ -215,18 +218,63 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         transition: transform 0.25s var(--ease-spring);
       }
 
-      nav a:hover {
+      .site-nav a:hover {
         color: var(--text);
         text-decoration: none;
       }
 
-      nav a:hover::after {
-        transform: scaleX(1);
+      @media (hover: hover) {
+        .site-nav a:hover::after {
+          transform: scaleX(1);
+        }
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        flex-shrink: 0;
       }
 
       .icon-link {
         display: inline-flex;
         align-items: center;
+        color: var(--text-muted);
+        padding: 0.35rem;
+        margin: -0.35rem;
+      }
+
+      .icon-link:hover {
+        color: var(--text);
+      }
+
+      /* 모바일: 1행 = 제목 + 아이콘, 2행 = 가로 스크롤 메뉴 */
+      @media (max-width: 640px) {
+        .header-inner {
+          flex-wrap: wrap;
+          row-gap: 0.55rem;
+          padding: 0.7rem 1.1rem 0.65rem;
+        }
+
+        .site-nav {
+          order: 3;
+          flex-basis: 100%;
+          margin-left: 0;
+          gap: 1rem;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          /* 밑줄 이펙트가 스크롤 컨테이너에 잘리지 않도록 여유 */
+          padding-bottom: 3px;
+        }
+
+        .site-nav::-webkit-scrollbar {
+          display: none;
+        }
+
+        .header-actions {
+          margin-left: auto;
+        }
       }
 
       #theme-toggle {
@@ -255,6 +303,19 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       #theme-toggle:active {
         transform: translate(1px, 1px);
         box-shadow: 0 0 0 var(--text);
+      }
+
+      /* 터치 기기에서는 탭 타깃을 키운다 */
+      @media (pointer: coarse) {
+        #theme-toggle {
+          width: 2.25rem;
+          height: 2.25rem;
+        }
+
+        .icon-link {
+          padding: 0.55rem;
+          margin: -0.55rem;
+        }
       }
 
       .icon-stack {
