@@ -208,7 +208,7 @@ img {
   border: none;
   border-bottom: 2px solid var(--border);
   padding: 0.55em 0.85em;
-  vertical-align: top;
+  vertical-align: middle;
   text-align: left;
 }
 
