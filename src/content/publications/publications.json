@@ -29,6 +29,16 @@
       "status": "심사중",
       "date": "2026",
       "link": "https://arxiv.org/abs/2607.11961"
+    },
+    {
+      "id": "Scientific-Data-KOTAX",
+      "title": "KOTAX: An integrated corporate disclosure corpus linked to a financial and tax panel of Korean listed firms",
+      "type": "journal",
+      "scope": "international",
+      "venue": "Scientific Data",
+      "status": "심사중",
+      "date": "2026",
+      "link": "https://doi.org/10.5281/zenodo.22806330"
     }
   ]
 }
