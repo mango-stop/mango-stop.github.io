@@ -1,5 +1,5 @@
 ---
-title: '[Project_001] KOSPI 종목분석 프레임워크 제작기 2 — 설계를 다시 짜다'
+title: '[Project_001] KOSPI 종목분석 프레임워크 제작기 #2 - 설계를 다시 짜다'
 slug: project-002
 description: 운영 환경 확정, 에이전트 토론에서 모듈 파이프라인으로의 구조 재설계
 pubDate: 2026-09-28
@@ -7,6 +7,7 @@ category: project
 tags:
   - KOSPI
   - 부자가 될래요
+cover: /uploads/최태원.jpg
 draft: false
 ---
 
