@@ -39,6 +39,16 @@
       "status": "심사중",
       "date": "2026",
       "link": "https://doi.org/10.5281/zenodo.22806330"
+    },
+    {
+      "id": "KCC-2026-apartment-transaction",
+      "title": "거시경제 충격과 아파트 거래 경직성 간의 관계 분석을 위한 매물 잠김 지수의 정의와 활용",
+      "type": "conference",
+      "scope": "domestic",
+      "venue": "한국정보과학회 2026 한국컴퓨터종합학술대회",
+      "status": "게재완료",
+      "date": "2026-06",
+      "link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE12929859"
     }
   ]
 }
