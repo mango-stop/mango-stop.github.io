@@ -91,6 +91,12 @@ const ogImage = image
         </div>
       </div>
     </header>
+    <div class="visit-counter-wrap">
+      <div class="visit-counter" id="visit-counter" hidden>
+        <span class="vc-chip vc-today">오늘 <b id="vc-today">0</b></span>
+        <span class="vc-chip vc-total">전체 <b id="vc-total">0</b></span>
+      </div>
+    </div>
     <main class:list={[{ wide }]}>
       <slot />
     </main>
@@ -100,10 +106,6 @@ const ogImage = image
         <span class="sep">·</span>
         <a href="https://github.com/mango-stop" target="_blank" rel="noopener">GitHub</a>
       </p>
-      <div class="visit-counter" id="visit-counter" hidden>
-        <span class="vc-chip vc-today">오늘 <b id="vc-today">0</b></span>
-        <span class="vc-chip vc-total">전체 <b id="vc-total">0</b></span>
-      </div>
     </footer>
 
     <script>
@@ -451,12 +453,23 @@ const ogImage = image
         color: var(--text);
       }
 
-      /* 방문자 카운터: 태그 칩과 같은 브루탈리스트 스티커 스타일 */
+      /* 방문자 카운터: 헤더 아래 우측, 태그 칩과 같은 브루탈리스트 스티커 스타일 */
+      .visit-counter-wrap {
+        max-width: 60rem;
+        margin: 0 auto;
+        padding: 0.8rem 1.35rem 0;
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      /* 카운터가 숨겨져 있으면(로드 전·실패) 자리도 차지하지 않는다 */
+      .visit-counter-wrap:has(.visit-counter[hidden]) {
+        display: none;
+      }
+
       .visit-counter {
         display: flex;
-        justify-content: center;
-        gap: 0.6rem;
-        margin: 0.7rem 0 1.1rem;
+        gap: 0.55rem;
       }
 
       .visit-counter[hidden] {
