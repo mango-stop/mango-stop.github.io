@@ -100,6 +100,7 @@ const ogImage = image
         <span class="sep">·</span>
         <a href="https://github.com/mango-stop" target="_blank" rel="noopener">GitHub</a>
       </p>
+      <p class="visit-counter" id="visit-counter" hidden></p>
     </footer>
 
     <script>
@@ -143,6 +144,34 @@ const ogImage = image
           })
           .catch(() => {});
       }
+    </script>
+
+    <script>
+      // 방문자 카운터: Cloudflare Worker(KV)에서 오늘/전체 방문 수를 받아 푸터에 표시.
+      // 같은 브라우저는 하루(KST)에 한 번만 집계되고, 실패하면 조용히 숨긴다.
+      (async () => {
+        const el = document.getElementById('visit-counter');
+        if (!el) return;
+        try {
+          const kstDay = new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString().slice(0, 10);
+          let alreadyCounted = false;
+          try {
+            alreadyCounted = localStorage.getItem('visited-day') === kstDay;
+          } catch {}
+
+          const res = await fetch(
+            `https://blog-visit-counter.msj121702.workers.dev/hit${alreadyCounted ? '?count=0' : ''}`
+          );
+          if (!res.ok) return;
+          const { today, total } = await res.json();
+          try {
+            localStorage.setItem('visited-day', kstDay);
+          } catch {}
+
+          el.textContent = `오늘 ${Number(today).toLocaleString()} · 전체 ${Number(total).toLocaleString()}`;
+          el.hidden = false;
+        } catch {}
+      })();
     </script>
 
     <script>
@@ -414,6 +443,13 @@ const ogImage = image
 
       .site-footer a:hover {
         color: var(--text);
+      }
+
+      .visit-counter {
+        margin-top: 0.15rem;
+        font-size: 0.76rem;
+        font-variant-numeric: tabular-nums;
+        opacity: 0.8;
       }
     </style>
   </body>

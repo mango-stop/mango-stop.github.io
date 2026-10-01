@@ -1,0 +1,10 @@
+# 블로그 방문자 카운터 Worker
+# 배포: 이 폴더에서 `npx wrangler deploy`
+# 최초 1회: `npx wrangler kv namespace create COUNTS` 실행 후 아래 id 교체
+name = "blog-visit-counter"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+
+[[kv_namespaces]]
+binding = "COUNTS"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"
