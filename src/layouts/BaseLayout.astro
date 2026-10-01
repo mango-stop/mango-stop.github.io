@@ -100,7 +100,10 @@ const ogImage = image
         <span class="sep">·</span>
         <a href="https://github.com/mango-stop" target="_blank" rel="noopener">GitHub</a>
       </p>
-      <p class="visit-counter" id="visit-counter" hidden></p>
+      <div class="visit-counter" id="visit-counter" hidden>
+        <span class="vc-chip vc-today">오늘 <b id="vc-today">0</b></span>
+        <span class="vc-chip vc-total">전체 <b id="vc-total">0</b></span>
+      </div>
     </footer>
 
     <script>
@@ -168,7 +171,10 @@ const ogImage = image
             localStorage.setItem('visited-day', kstDay);
           } catch {}
 
-          el.textContent = `오늘 ${Number(today).toLocaleString()} · 전체 ${Number(total).toLocaleString()}`;
+          const todayEl = document.getElementById('vc-today');
+          const totalEl = document.getElementById('vc-total');
+          if (todayEl) todayEl.textContent = Number(today).toLocaleString();
+          if (totalEl) totalEl.textContent = Number(total).toLocaleString();
           el.hidden = false;
         } catch {}
       })();
@@ -445,11 +451,53 @@ const ogImage = image
         color: var(--text);
       }
 
+      /* 방문자 카운터: 태그 칩과 같은 브루탈리스트 스티커 스타일 */
       .visit-counter {
-        margin-top: 0.15rem;
+        display: flex;
+        justify-content: center;
+        gap: 0.6rem;
+        margin: 0.7rem 0 1.1rem;
+      }
+
+      .visit-counter[hidden] {
+        display: none;
+      }
+
+      .vc-chip {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 0.35rem;
+        padding: 0.16rem 0.7rem;
+        border: 2px solid var(--border);
+        background: var(--bg-card);
+        box-shadow: 2px 2px 0 var(--text);
         font-size: 0.76rem;
+        font-weight: 700;
+        color: var(--text);
+        animation: vc-pop 0.4s var(--ease-spring) backwards;
+      }
+
+      .vc-chip b {
+        font-size: 0.92rem;
+        font-weight: 900;
         font-variant-numeric: tabular-nums;
-        opacity: 0.8;
+      }
+
+      .vc-today {
+        background: var(--accent2);
+        transform: rotate(-1.5deg);
+      }
+
+      .vc-total {
+        transform: rotate(1deg);
+        animation-delay: 0.08s;
+      }
+
+      @keyframes vc-pop {
+        from {
+          opacity: 0;
+          transform: translateY(8px) scale(0.85);
+        }
       }
     </style>
   </body>
