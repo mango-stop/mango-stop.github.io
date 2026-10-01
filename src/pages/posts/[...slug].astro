@@ -2,7 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Giscus from '../../components/Giscus.astro';
-import { CATEGORIES, formatDate } from '../../lib/site';
+import { CATEGORIES, formatDate, firstImageFromMarkdown } from '../../lib/site';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts', ({ data }) => !data.draft);
@@ -16,9 +16,10 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const category = CATEGORIES[post.data.category];
+const cover = post.data.cover ?? firstImageFromMarkdown(post.body ?? '') ?? undefined;
 ---
 
-<BaseLayout title={post.data.title} description={post.data.description}>
+<BaseLayout title={post.data.title} description={post.data.description} image={cover}>
   <article>
     <header class="post-header">
       <div class="meta">

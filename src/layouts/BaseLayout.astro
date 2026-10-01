@@ -7,11 +7,17 @@ interface Props {
   title?: string;
   description?: string;
   wide?: boolean;
+  /** OG 카드 이미지 (사이트 기준 절대 경로 또는 전체 URL) */
+  image?: string;
 }
 
-const { title, description = SITE_DESCRIPTION, wide = false } = Astro.props;
+const { title, description = SITE_DESCRIPTION, wide = false, image } = Astro.props;
 const pageTitle = title ? `${title} · ${SITE_TITLE}` : SITE_TITLE;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const canonicalURL = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.href;
+const ogImage = image
+  ? new URL(image, Astro.site ?? Astro.url).href
+  : undefined;
 ---
 
 <!doctype html>
@@ -22,6 +28,19 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
     <meta name="site-base" content={base} />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href={`${base}/rss.xml`} />
+    <meta property="og:type" content={title ? 'article' : 'website'} />
+    <meta property="og:site_name" content={SITE_TITLE} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:locale" content="ko_KR" />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
